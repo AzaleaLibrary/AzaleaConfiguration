@@ -1,9 +1,6 @@
 package com.azalealibrary.configuration.property;
 
 import com.azalealibrary.configuration.command.Arguments;
-import com.azalealibrary.configuration.property.guard.AssignmentPolicy;
-import com.azalealibrary.configuration.property.guard.ProtectedAssignment;
-import com.google.common.collect.ImmutableList;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -12,25 +9,15 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public final class CollectionProperty<T> extends ConfigurableProperty<List<T>> implements ProtectedAssignment<T> {
+public final class ListProperty<T> extends ConfigurableProperty<T, List<T>> {
 
     private static final String ADD = "add";
     private static final String REMOVE = "remove";
     private static final String REPLACE = "replace";
 
-    private final PropertyType<T> propertyType;
-    private final ImmutableList<AssignmentPolicy<T>> policies;
-
     @SafeVarargs
-    public CollectionProperty(PropertyType<T> propertyType, String name, String description, List<T> defaultValue, boolean required, AssignmentPolicy<T>... policies) {
-        super(propertyType.getType(), name, description, defaultValue, required);
-        this.propertyType = propertyType;
-        this.policies = ImmutableList.copyOf(policies);
-    }
-
-    @Override
-    public List<AssignmentPolicy<T>> getAssignmentPolicies() {
-        return policies;
+    public ListProperty(PropertyType<T> type, List<T> defaultValue, String name, String description, boolean required, AssignmentPolicy<T>... policies) {
+        super(type, defaultValue, name, description, required, policies);
     }
 
     @Override
@@ -38,7 +25,7 @@ public final class CollectionProperty<T> extends ConfigurableProperty<List<T>> i
         String action = arguments.matchesAny(0, "list operation", ADD, REMOVE, REPLACE);
 
         if (action.equals(ADD)) {
-            get().add(verify(propertyType.parse(sender, arguments.subArguments(1), null)));
+            get().add(verify(getType().parse(sender, arguments.subArguments(1), null)));
         } else {
             int index = arguments.find(1, "position", input -> Integer.parseInt(input.replace("@", "")));
 
@@ -47,7 +34,7 @@ public final class CollectionProperty<T> extends ConfigurableProperty<List<T>> i
             }
 
             if (action.equals(REPLACE)) {
-                get().set(index, verify(propertyType.parse(sender, arguments.subArguments(2), null)));
+                get().set(index, verify(getType().parse(sender, arguments.subArguments(2), null)));
             } else {
                 get().remove(index);
             }
@@ -63,7 +50,7 @@ public final class CollectionProperty<T> extends ConfigurableProperty<List<T>> i
         } else if (arguments.is(0, ADD) || arguments.is(0, REPLACE)) {
             // avoid suggesting more than necessary
             Arguments data = arguments.subArguments(arguments.is(0, ADD) ? 0 : 1);
-            List<String> suggestion = propertyType.suggest(sender, data, null);
+            List<String> suggestion = getType().suggest(sender, data, null);
             return arguments.size() -1 <= suggestion.size() ? suggestion : List.of();
         }
         return List.of();
@@ -71,16 +58,16 @@ public final class CollectionProperty<T> extends ConfigurableProperty<List<T>> i
 
     @Override
     public void serialize(@Nonnull ConfigurationSection configuration) {
-        Optional.ofNullable(get()).ifPresent(value -> configuration.set(getName(), value.stream().map(propertyType::toObject).toList()));
+        Optional.ofNullable(get()).ifPresent(value -> configuration.set(getName(), value.stream().map(getType()::toObject).toList()));
     }
 
     @Override
     public void deserialize(@Nonnull ConfigurationSection configuration) {
-        Optional.ofNullable(configuration.getList(getName())).ifPresent(objects -> objects.forEach(object -> get().add(propertyType.toValue(object))));
+        Optional.ofNullable(configuration.getList(getName())).ifPresent(objects -> objects.forEach(object -> get().add(getType().toValue(object))));
     }
 
     @Override
     public String toString() {
-        return isSet() ? Arrays.toString(get().stream().map(propertyType::toString).toArray()) : "<empty>";
+        return isSet() ? Arrays.toString(get().stream().map(getType()::toString).toArray()) : "<empty>";
     }
 }
