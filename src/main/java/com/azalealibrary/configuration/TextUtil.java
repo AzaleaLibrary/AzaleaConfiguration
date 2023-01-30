@@ -13,13 +13,17 @@ import java.util.stream.Collectors;
 
 public final class TextUtil {
 
+    public static String getName(ConfigurableProperty<?, ?> property) {
+        return ChatColor.LIGHT_PURPLE + property.getName() + ChatColor.RESET;
+    }
+
     public static List<String> printable(ConfigurableProperty<?, ?> property, int width) {
         List<String> lines = new ArrayList<>();
         String type = property instanceof ListProperty<?> ? "List of " + property.getType().getExpected() : property.getType().getExpected();
-        lines.add("Property: " + ChatColor.BLUE + property.getName() + ChatColor.RESET + " (" + type + ")");
+        lines.add("Property: " + getName(property) + " (" + type + ")");
         lines.add("> Required: " + (property.isRequired() ? ChatColor.GREEN + "true" : ChatColor.RED + "false"));
-        lines.add("> Default: " + property.getDefault().toString());
-        lines.add("> Value: " + property);
+        lines.add("> Default: " + ChatColor.AQUA + property.getDefault().toString());
+        lines.add("> Value: " + ChatColor.YELLOW + property);
         lines.addAll(split(property.getDescription(), width, "  ").stream().map(line -> ChatColor.GRAY + line).toList());
         return lines;
     }
