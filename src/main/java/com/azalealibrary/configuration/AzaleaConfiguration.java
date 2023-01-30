@@ -2,8 +2,8 @@ package com.azalealibrary.configuration;
 
 import com.azalealibrary.configuration.command.CommandNode;
 import com.azalealibrary.configuration.command.ConfigureCommand;
-import com.azalealibrary.configuration.property.CollectionProperty;
 import com.azalealibrary.configuration.property.ConfigurableProperty;
+import com.azalealibrary.configuration.property.ListProperty;
 import com.azalealibrary.configuration.property.Property;
 import com.azalealibrary.configuration.property.PropertyType;
 import org.bukkit.plugin.PluginDescriptionFile;
@@ -21,11 +21,11 @@ public final class AzaleaConfiguration extends JavaPlugin {
 
     private static final Configurable CONFIGURABLE = new Configurable() {
 
-        private final Property<Integer> number = new Property<>(PropertyType.INTEGER, "number", "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.", 21, true);
-        private final CollectionProperty<Vector> spawns = new CollectionProperty<>(PropertyType.VECTOR, "spawns", "This is a description too.", new ArrayList<>(), true);
+        private final Property<Integer> number = new Property<>(PropertyType.INTEGER, 21, "number", "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.", true);
+        private final ListProperty<Vector> spawns = new ListProperty<>(PropertyType.VECTOR, new ArrayList<>(), "spawns", "This is a description too.", true);
 
         @Override
-        public List<ConfigurableProperty<?>> getProperties() {
+        public List<ConfigurableProperty<?, ?>> getProperties() {
             return List.of(number, spawns);
         }
     };

@@ -29,7 +29,7 @@ public class ConfigureCommand extends CommandNode {
             return ConfigurationApi.getConfigurations().stream().map(FileConfiguration::getName).toList();
         } else {
             FileConfiguration configuration = arguments.find(0, "configuration", input -> ConfigurationApi.getConfigurations().stream().filter(c -> c.getName().equals(input)).findFirst().orElse(null));
-            List<ConfigurableProperty<?>> properties = configuration.getConfigurable().getProperties();
+            List<ConfigurableProperty<?, ?>> properties = configuration.getConfigurable().getProperties();
 
             if (arguments.size() == 2) {
                 return properties.stream().map(ConfigurableProperty::getName).toList();
@@ -48,7 +48,7 @@ public class ConfigureCommand extends CommandNode {
     @Override
     public void execute(CommandSender sender, Arguments arguments) {
         FileConfiguration configuration = arguments.find(0, "configuration", input -> ConfigurationApi.getConfigurations().stream().filter(c -> c.getName().equals(input)).findFirst().orElse(null));
-        ConfigurableProperty<?> property = arguments.find(1, "property", input -> configuration.getConfigurable().getProperties().stream().filter(p -> p.getName().equals(input)).findFirst().orElse(null));
+        ConfigurableProperty<?, ?> property = arguments.find(1, "property", input -> configuration.getConfigurable().getProperties().stream().filter(p -> p.getName().equals(input)).findFirst().orElse(null));
         String action = arguments.matchesAny(2, "action", SET, RESET, INFO);
 
         switch (action) {
@@ -61,28 +61,26 @@ public class ConfigureCommand extends CommandNode {
                 sender.sendMessage("Property " + property.getName() + " has been reset.");
             }
             case INFO -> {
-                sender.sendMessage("|> " + ChatColor.BLUE + property.getName() + ": " + ChatColor.YELLOW + property.get());
-                sender.sendMessage(split(property.getDescription(), 58).toArray(String[]::new));
+                sender.sendMessage(ChatColor.LIGHT_PURPLE + property.getName() + ChatColor.RESET + ": " + ChatColor.YELLOW + property.get());
+                sender.sendMessage(split(property.getDescription(), 60, "  "));
             }
         }
     }
 
-    private static List<String> split(String text, int max) {
-        List<String> words = new ArrayList<>(Arrays.stream(text.split("\\s+")).toList());
+    private static String[] split(String text, int loggerWidth, String prefix) {
+        int targetWidth = loggerWidth - prefix.length();
+        List<String> words = Arrays.stream(text.split("\\s+")).collect(Collectors.toList());
 
         String raw = ChatColor.stripColor(text);
-        int width = MinecraftFont.Font.getWidth(raw);
-        int copies = (int) Math.ceil((float) width / max);
-        List<String> lines = new ArrayList<>(Collections.nCopies(copies, ""));
+        int textWidth = MinecraftFont.Font.getWidth(raw);
+        int lineCount = (int) Math.ceil((float) textWidth / targetWidth);
+        List<String> lines = new ArrayList<>(Collections.nCopies(lineCount, ""));
 
         for (int i = 0; i < lines.size(); i++) {
-            while (words.size() > 0 && lines.get(i).length() + words.get(0).length() <= max) {
+            while (words.size() > 0 && lines.get(i).length() + words.get(0).length() <= targetWidth) {
                 lines.add(i, lines.remove(i) + " " + words.remove(0));
             }
         }
-
-        lines = lines.stream().map(String::trim).collect(Collectors.toList());
-        lines.removeIf(l -> l.isEmpty() || l.isBlank());
-        return lines.stream().map(line -> "| " + line).toList();
+        return lines.stream().map(l -> prefix + l.trim()).filter(l -> !l.isBlank()).toArray(String[]::new);
     }
 }

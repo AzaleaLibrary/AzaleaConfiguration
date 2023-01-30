@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.function.Function;
 
-public class PropertyType<T> {
+public final class PropertyType<T> {
 
     public static final PropertyType<String> STRING = new Builder<String>(String.class, "Text")
             .parse((sender, arguments, currentValue) -> arguments.getLast())
