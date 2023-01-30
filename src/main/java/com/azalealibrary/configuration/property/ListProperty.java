@@ -5,9 +5,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 
 import javax.annotation.Nonnull;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public final class ListProperty<T> extends ConfigurableProperty<T, List<T>> {
 
@@ -68,6 +68,6 @@ public final class ListProperty<T> extends ConfigurableProperty<T, List<T>> {
 
     @Override
     public String toString() {
-        return isSet() ? Arrays.toString(get().stream().map(getType()::toString).toArray()) : "<empty>";
+        return isSet() ? get().stream().map(getType()::toString).collect(Collectors.joining(", ")) : "<empty>";
     }
 }
