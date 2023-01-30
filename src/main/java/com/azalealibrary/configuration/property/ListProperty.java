@@ -7,6 +7,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public final class ListProperty<T> extends ConfigurableProperty<T, List<T>> {
@@ -16,8 +17,9 @@ public final class ListProperty<T> extends ConfigurableProperty<T, List<T>> {
     private static final String REPLACE = "replace";
 
     @SafeVarargs
-    public ListProperty(PropertyType<T> type, List<T> defaultValue, String name, String description, boolean required, AssignmentPolicy<T>... policies) {
+    public ListProperty(PropertyType<T> type, Supplier<List<T>> defaultValue, String name, String description, boolean required, AssignmentPolicy<T>... policies) {
         super(type, defaultValue, name, description, required, policies);
+        set(defaultValue.get());
     }
 
     @Override

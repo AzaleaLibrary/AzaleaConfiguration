@@ -8,6 +8,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 public abstract class ConfigurableProperty<T, P> {
 
@@ -17,11 +18,11 @@ public abstract class ConfigurableProperty<T, P> {
     private final String name;
     private final String description;
     private final boolean required;
-    private final P defaultValue;
+    private final Supplier<P> defaultValue;
     private P value;
 
     @SafeVarargs
-    protected ConfigurableProperty(PropertyType<T> type, P defaultValue, String name, String description, boolean required, AssignmentPolicy<T>... policies) {
+    protected ConfigurableProperty(PropertyType<T> type, Supplier<P> defaultValue, String name, String description, boolean required, AssignmentPolicy<T>... policies) {
         this.type = type;
         this.name = name;
         this.description = description;
@@ -47,11 +48,11 @@ public abstract class ConfigurableProperty<T, P> {
     }
 
     public P getDefault() {
-        return defaultValue;
+        return defaultValue.get();
     }
 
     public P get() {
-        return Optional.ofNullable(value).orElse(defaultValue);
+        return Optional.ofNullable(value).orElseGet(defaultValue);
     }
 
     public void set(P value) {
@@ -59,7 +60,7 @@ public abstract class ConfigurableProperty<T, P> {
     }
 
     public void reset() {
-        value = defaultValue;
+        value = defaultValue.get();
     }
 
     public boolean isSet() {

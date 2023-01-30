@@ -12,7 +12,7 @@ public final class Property<T> extends ConfigurableProperty<T, T> {
 
     @SafeVarargs
     public Property(PropertyType<T> type, T defaultValue, String name, String description, boolean required, AssignmentPolicy<T>... policies) {
-        super(type, defaultValue, name, description, required, policies);
+        super(type, () -> defaultValue, name, description, required, policies);
     }
 
     @Override
