@@ -83,4 +83,17 @@ public class FileConfiguration {
         }
         return file;
     }
+
+    @Override
+    public boolean equals(Object object) {
+        if (object instanceof FileConfiguration fileConfiguration) {
+            return name.equals(fileConfiguration.name) && plugin.equals(fileConfiguration.plugin);
+        }
+        return super.equals(object);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("name:%s, owner:%s", name, plugin.getName());
+    }
 }
