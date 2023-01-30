@@ -37,10 +37,7 @@ public class FileConfiguration {
         YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
 
         try {
-            for (ConfigurableProperty<?> property : configurable.getProperties()) {
-                String text = "Property: '%s' (required: %b, default value: %s)";
-                String meta = String.format(text, property.getName(), property.isRequired(), property.getDefault());
-                config.setComments(property.getName(), List.of(meta, property.getDescription()));
+            for (ConfigurableProperty<?, ?> property : configurable.getProperties()) {
                 property.deserialize(config);
             }
         } catch (Exception exception) {
@@ -57,11 +54,11 @@ public class FileConfiguration {
         YamlConfiguration config = new YamlConfiguration();
 
         try {
-            for (ConfigurableProperty<?> property : configurable.getProperties()) {
-                String text = "Property: '%s' (required: %b, default value: %s)";
-                String meta = String.format(text, property.getName(), property.isRequired(), property.getDefault());
-                config.setComments(property.getName(), List.of(meta, property.getDescription()));
+            for (ConfigurableProperty<?, ?> property : configurable.getProperties()) {
                 property.serialize(config);
+                String text = "Property: '%s' (type: %s, required: %b, default value: %s)";
+                String meta = String.format(text, property.getName(), property.getType().getExpected(), property.isRequired(), property.getDefault());
+                config.setComments(property.getName(), List.of(meta, property.getDescription()));
             }
             config.save(file);
         } catch (Exception exception) {
