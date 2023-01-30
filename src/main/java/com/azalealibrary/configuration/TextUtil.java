@@ -18,17 +18,9 @@ public final class TextUtil {
         String type = property instanceof ListProperty<?> ? "List of " + property.getType().getExpected() : property.getType().getExpected();
         lines.add("Property: " + ChatColor.BLUE + property.getName() + ChatColor.RESET + " (" + type + ")");
         lines.add("> Required: " + (property.isRequired() ? ChatColor.GREEN + "true" : ChatColor.RED + "false"));
-
-        List<String> defaultValue = split(property instanceof ListProperty<?> listProperty ? listProperty.getDefault().toString() : property.getDefault().toString(), width, "            ");
-        lines.add("> Default: " + defaultValue.remove(0).trim());
-        lines.addAll(defaultValue);
-
-        List<String> value = split(property.toString(), width, "            ");
-        lines.add("> Value: " + (value.isEmpty() ? "<empty>" : value.remove(0).trim()));
-        lines.addAll(value);
-
-        lines.addAll(split(property.getDescription(), width, "  ").stream().map(l -> ChatColor.GRAY + l).toList());
-
+        lines.add("> Default: " + property.getDefault().toString());
+        lines.add("> Value: " + property);
+        lines.addAll(split(property.getDescription(), width, "  ").stream().map(line -> ChatColor.GRAY + line).toList());
         return lines;
     }
 
