@@ -5,25 +5,33 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class ConfigurableProperty<T> {
+public abstract class ConfigurableProperty<T, P> {
 
-    private final Class<?> type;
+    private final PropertyType<T> type;
+    private final List<AssignmentPolicy<T>> policies;
+
     private final String name;
     private final String description;
-    private final T defaultValue;
     private final boolean required;
+    private final P defaultValue;
+    private P value;
 
-    private T value;
-
-    protected ConfigurableProperty(Class<?> type, String name, String description, T defaultValue, boolean required) {
+    @SafeVarargs
+    protected ConfigurableProperty(PropertyType<T> type, P defaultValue, String name, String description, boolean required, AssignmentPolicy<T>... policies) {
         this.type = type;
         this.name = name;
         this.description = description;
-        this.defaultValue = defaultValue;
         this.required = required;
+        this.defaultValue = defaultValue;
+        this.policies = List.of(policies);
+    }
+
+    public PropertyType<T> getType() {
+        return type;
     }
 
     public String getName() {
@@ -38,15 +46,15 @@ public abstract class ConfigurableProperty<T> {
         return required;
     }
 
-    public T getDefault() {
+    public P getDefault() {
         return defaultValue;
     }
 
-    public T get() {
+    public P get() {
         return Optional.ofNullable(value).orElse(defaultValue);
     }
 
-    public void set(T value) {
+    public void set(P value) {
         this.value = value;
     }
 
@@ -56,6 +64,17 @@ public abstract class ConfigurableProperty<T> {
 
     public boolean isSet() {
         return get() != null;
+    }
+
+    protected T verify(@Nullable T value) throws RuntimeException {
+        AssignmentPolicy<T> failedCheck = policies.stream()
+                .filter(validator -> !validator.canAssign(value))
+                .findAny().orElse(null);
+
+        if (failedCheck != null) {
+            throw new RuntimeException(failedCheck.getMessage(value));
+        }
+        return value;
     }
 
     public abstract void onExecute(CommandSender sender, Arguments arguments);
@@ -68,8 +87,8 @@ public abstract class ConfigurableProperty<T> {
 
     @Override
     public boolean equals(Object object) {
-        if (object instanceof ConfigurableProperty<?> property) {
-            return property.name.equals(name) && property.type.equals(type);
+        if (object instanceof ConfigurableProperty<?, ?> property) {
+            return property.name.equals(name) && property.type.getType().equals(type.getType());
         }
         return super.equals(object);
     }
