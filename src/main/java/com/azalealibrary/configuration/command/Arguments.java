@@ -7,6 +7,7 @@ import java.util.AbstractList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public final class Arguments extends AbstractList<String> {
 
@@ -84,5 +85,10 @@ public final class Arguments extends AbstractList<String> {
             throw new RuntimeException(String.format("Could not find %s '%s'.", thing, argument));
         }
         return object;
+    }
+
+    @Override
+    public String toString() {
+        return arguments.stream().map(Object::toString).collect(Collectors.joining(","));
     }
 }
