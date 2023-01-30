@@ -1,6 +1,7 @@
 package com.azalealibrary.configuration.property;
 
 import com.azalealibrary.configuration.command.Arguments;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -16,16 +17,22 @@ import java.util.function.Function;
 
 public class PropertyType<T> {
 
-    public static final PropertyType<String> STRING = new Builder<String>(String.class)
+    public static final PropertyType<String> STRING = new Builder<String>(String.class, "Text")
             .parse((sender, arguments, currentValue) -> arguments.getLast())
             .suggest((sender, arguments, currentValue) -> List.of("<text>"))
             .done();
-    public static final PropertyType<Integer> INTEGER = new Builder<Integer>(Integer.class)
+    public static final PropertyType<Integer> INTEGER = new Builder<Integer>(Integer.class, "Whole number")
             .parse((sender, arguments, currentValue) -> Integer.parseInt(arguments.getLast()))
             .suggest((sender, arguments, currentValue) -> List.of("<number>"))
             .done();
     public static final PropertyType<Boolean> BOOLEAN = new Builder<Boolean>(Boolean.class)
-            .parse((sender, arguments, currentValue) -> Boolean.parseBoolean(arguments.getLast()))
+            .parse((sender, arguments, currentValue) -> {
+                String input = arguments.getLast();
+                if (!input.equals("true") && !input.equals("false")) {
+                    throw new RuntimeException();
+                }
+                return Boolean.parseBoolean(input);
+            })
             .suggest((sender, arguments, currentValue) -> List.of(Boolean.toString(Boolean.FALSE.equals(currentValue))))
             .done();
     public static final PropertyType<Vector> VECTOR = new Builder<Vector>(Vector.class)
@@ -67,13 +74,15 @@ public class PropertyType<T> {
             .done();
 
     private final Class<?> type;
+    private final String expected;
     private final Parser<T> parser;
     private final Completer<T> completer;
     private final Function<T, String> toString;
     private final Function<T, Object> toObject;
     private final Function<Object, T> toValue;
 
-    private PropertyType(Class<?> type, Parser<T> parser, Completer<T> completer, Function<T, String> toString, Function<T, Object> toObject, Function<Object, T> toValue) {
+    private PropertyType(Class<?> type, String expected, Parser<T> parser, Completer<T> completer, Function<T, String> toString, Function<T, Object> toObject, Function<Object, T> toValue) {
+        this.expected = expected;
         this.type = type;
         this.parser = parser;
         this.completer = completer;
@@ -86,11 +95,15 @@ public class PropertyType<T> {
         return type;
     }
 
+    public String getExpected() {
+        return expected;
+    }
+
     public T parse(CommandSender sender, Arguments arguments, @Nullable T currentValue) {
         try {
             return parser.parse(sender, arguments, currentValue);
         } catch (Exception exception) {
-            throw new RuntimeException("Invalid arguments provided: " + arguments + ".");
+            throw new RuntimeException(expected + " expected. Got " + arguments);
         }
     }
 
@@ -113,6 +126,7 @@ public class PropertyType<T> {
     public static class Builder<T> {
 
         private final Class<?> type;
+        private final String expected;
         private Parser<T> parser = (sender, arguments, currentValue) -> (T) arguments.getLast();
         private Completer<T> completer = (sender, arguments, currentValue) -> List.of();
         private Function<T, String> toString = Object::toString;
@@ -120,7 +134,12 @@ public class PropertyType<T> {
         private Function<Object, T> toValue = object -> (T) object;
 
         public Builder(Class<?> type) {
+            this(type, type.getSimpleName());
+        }
+
+        public Builder(Class<?> type, String expected) {
             this.type = type;
+            this.expected = StringUtils.capitalize(expected);
         }
 
         public Builder<T> parse(Parser<T> parser) {
@@ -149,7 +168,7 @@ public class PropertyType<T> {
         }
 
         public PropertyType<T> done() {
-            return new PropertyType<>(type, parser, completer, toString, toObject, toValue);
+            return new PropertyType<>(type, expected, parser, completer, toString, toObject, toValue);
         }
     }
 
