@@ -6,7 +6,6 @@ import com.azalealibrary.configuration.property.ConfigurableProperty;
 import com.azalealibrary.configuration.property.ListProperty;
 import com.azalealibrary.configuration.property.Property;
 import com.azalealibrary.configuration.property.PropertyType;
-import com.google.common.collect.ImmutableList;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.java.JavaPluginLoader;

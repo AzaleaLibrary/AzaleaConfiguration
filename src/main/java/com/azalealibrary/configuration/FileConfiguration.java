@@ -1,6 +1,7 @@
 package com.azalealibrary.configuration;
 
 import com.azalealibrary.configuration.property.ConfigurableProperty;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -56,9 +57,8 @@ public class FileConfiguration {
         try {
             for (ConfigurableProperty<?, ?> property : configurable.getProperties()) {
                 property.serialize(config);
-                String text = "Property: '%s' (type: %s, required: %b, default value: %s)";
-                String meta = String.format(text, property.getName(), property.getType().getExpected(), property.isRequired(), property.getDefault());
-                config.setComments(property.getName(), List.of(meta, property.getDescription()));
+                List<String> comments = TextUtil.printable(property, 80).stream().map(ChatColor::stripColor).toList();
+                config.setComments(property.getName(), comments);
             }
             config.save(file);
         } catch (Exception exception) {
