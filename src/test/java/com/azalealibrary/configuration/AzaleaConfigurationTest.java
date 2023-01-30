@@ -7,16 +7,16 @@ import org.junit.jupiter.api.Test;
 
 class AzaleaConfigurationTest {
 
-    private AzaleaConfiguration plugin;
+    AzaleaConfiguration plugin;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         MockBukkit.mock();
         plugin = MockBukkit.load(AzaleaConfiguration.class);
     }
 
     @AfterEach
-    public void tearDown() {
+    void tearDown() {
         MockBukkit.unmock();
     }
 

@@ -1,8 +1,8 @@
 package com.azalealibrary.configuration;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
-import com.azalealibrary.configuration.property.ListProperty;
 import com.azalealibrary.configuration.property.ConfigurableProperty;
+import com.azalealibrary.configuration.property.ListProperty;
 import com.azalealibrary.configuration.property.Property;
 import com.azalealibrary.configuration.property.PropertyType;
 import org.bukkit.util.Vector;
@@ -16,8 +16,8 @@ import java.util.List;
 
 class ConfigurationApiTest {
 
-    private AzaleaConfiguration plugin;
-    private Configurable configurable;
+    AzaleaConfiguration plugin;
+    Configurable configurable;
 
     @BeforeEach
     void setUp() {
@@ -36,7 +36,7 @@ class ConfigurationApiTest {
     }
 
     @AfterEach
-    public void tearDown() {
+    void tearDown() {
         MockBukkit.unmock();
     }
 
