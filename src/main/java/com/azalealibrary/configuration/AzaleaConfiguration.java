@@ -42,7 +42,7 @@ public final class AzaleaConfiguration extends JavaPlugin {
         CONFIGURATIONS.forEach(FileConfiguration::save);
     }
 
-    public static void register(final String name, final JavaPlugin plugin, final Configurable configurable) {
+    public static void register(String name, JavaPlugin plugin, Configurable configurable) {
         FileConfiguration configuration = new FileConfiguration(name, plugin, configurable);
 
         if (CONFIGURATIONS.contains(configuration)) {
