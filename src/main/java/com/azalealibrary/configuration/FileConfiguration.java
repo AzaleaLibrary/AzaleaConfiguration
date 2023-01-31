@@ -33,7 +33,7 @@ public class FileConfiguration {
         loadFromFile(getConfigFile());
     }
 
-    public void loadFromFile(final File file) {
+    public void loadFromFile(File file) {
         plugin.getLogger().log(Level.INFO, "Loading '" + name + "' data.");
         YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
 
@@ -50,7 +50,7 @@ public class FileConfiguration {
         saveToFile(getConfigFile());
     }
 
-    public void saveToFile(final File file) {
+    public void saveToFile(File file) {
         plugin.getLogger().log(Level.INFO, "Saving '" + name + "' data.");
         YamlConfiguration config = new YamlConfiguration();
 
