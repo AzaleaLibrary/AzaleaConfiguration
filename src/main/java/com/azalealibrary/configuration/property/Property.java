@@ -16,27 +16,27 @@ public final class Property<T> extends ConfigurableProperty<T, T> {
     }
 
     @Override
-    public void onExecute(CommandSender sender, Arguments arguments) {
+    public List<String> get(CommandSender sender, Arguments arguments) {
+        return getType().complete(sender, arguments, get());
+    }
+
+    @Override
+    public void set(CommandSender sender, Arguments arguments) {
         set(verify(getType().parse(sender, arguments, get())));
     }
 
     @Override
-    public List<String> onSuggest(CommandSender sender, Arguments arguments) {
-        return getType().suggest(sender, arguments, get());
-    }
-
-    @Override
     public void serialize(@Nonnull ConfigurationSection configuration) {
-        Optional.ofNullable(get()).ifPresent(value -> configuration.set(getName(), getType().toObject(value)));
+        Optional.ofNullable(get()).ifPresent(value -> configuration.set(getName(), getType().serialize(value)));
     }
 
     @Override
     public void deserialize(@Nonnull ConfigurationSection configuration) {
-        Optional.ofNullable(configuration.get(getName())).ifPresent(object -> set(getType().toValue(object)));
+        Optional.ofNullable(configuration.get(getName())).ifPresent(object -> set(getType().deserialize(object)));
     }
 
     @Override
     public String toString() {
-        return isSet() ? getType().toString(get()) : "<empty>";
+        return isSet() ? getType().print(get()) : "<empty>";
     }
 }

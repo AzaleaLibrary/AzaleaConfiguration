@@ -23,7 +23,7 @@ public final class ListProperty<T> extends ConfigurableProperty<T, List<T>> {
     }
 
     @Override
-    public void onExecute(CommandSender sender, Arguments arguments) {
+    public void set(CommandSender sender, Arguments arguments) {
         String action = arguments.matchesAny(0, "list operation", ADD, REMOVE, REPLACE);
 
         if (action.equals(ADD)) {
@@ -44,7 +44,7 @@ public final class ListProperty<T> extends ConfigurableProperty<T, List<T>> {
     }
 
     @Override
-    public List<String> onSuggest(CommandSender sender, Arguments arguments) {
+    public List<String> get(CommandSender sender, Arguments arguments) {
         if (arguments.size() == 1) {
             return List.of(ADD, REMOVE, REPLACE);
         } else if (arguments.size() == 2 && !get().isEmpty() && !arguments.is(0, ADD)) {
@@ -52,7 +52,7 @@ public final class ListProperty<T> extends ConfigurableProperty<T, List<T>> {
         } else if (arguments.is(0, ADD) || arguments.is(0, REPLACE)) {
             // avoid suggesting more than necessary
             Arguments data = arguments.subArguments(arguments.is(0, ADD) ? 0 : 1);
-            List<String> suggestion = getType().suggest(sender, data, null);
+            List<String> suggestion = getType().complete(sender, data, null);
             return arguments.size() -1 <= suggestion.size() ? suggestion : List.of();
         }
         return List.of();
@@ -60,16 +60,16 @@ public final class ListProperty<T> extends ConfigurableProperty<T, List<T>> {
 
     @Override
     public void serialize(@Nonnull ConfigurationSection configuration) {
-        Optional.ofNullable(get()).ifPresent(value -> configuration.set(getName(), value.stream().map(getType()::toObject).toList()));
+        Optional.ofNullable(get()).ifPresent(value -> configuration.set(getName(), value.stream().map(getType()::serialize).toList()));
     }
 
     @Override
     public void deserialize(@Nonnull ConfigurationSection configuration) {
-        Optional.ofNullable(configuration.getList(getName())).ifPresent(objects -> objects.forEach(object -> get().add(getType().toValue(object))));
+        Optional.ofNullable(configuration.getList(getName())).ifPresent(objects -> objects.forEach(object -> get().add(getType().deserialize(object))));
     }
 
     @Override
     public String toString() {
-        return isSet() ? get().stream().map(getType()::toString).collect(Collectors.joining(", ")) : "<empty>";
+        return isSet() ? get().stream().map(getType()::print).collect(Collectors.joining(", ")) : "<empty>";
     }
 }
