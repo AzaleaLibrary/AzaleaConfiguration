@@ -42,7 +42,7 @@ public class FileConfiguration {
                 property.deserialize(config);
             }
         } catch (Exception exception) {
-            plugin.getLogger().log(Level.WARNING, exception, () -> "Could not loadFromFile '" + name + "' data.");
+            plugin.getLogger().log(Level.WARNING, exception, () -> "Could not load '" + name + "' data.");
         }
     }
 
