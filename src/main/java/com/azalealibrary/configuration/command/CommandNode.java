@@ -83,8 +83,7 @@ public class CommandNode extends Command {
             CommandMap map = (CommandMap) field.get(Bukkit.getServer());
             map.register(plugin.getName(), command.getConstructor().newInstance());
         } catch (Exception exception) {
-            exception.printStackTrace();
-//            throw new RuntimeException("An error occurred while registering command.", exception);
+            throw new RuntimeException("An error occurred while registering command.", exception);
         }
     }
 }
