@@ -123,11 +123,11 @@ public class PropertyType<T> {
     private final Class<?> type;
     private final String expected;
 
-    protected PropertyType(Class<?> type) {
+    public PropertyType(Class<?> type) {
         this(type, type.getSimpleName());
     }
 
-    protected PropertyType(Class<?> type, String expected) {
+    public PropertyType(Class<?> type, String expected) {
         this.expected = expected;
         this.type = type;
     }
