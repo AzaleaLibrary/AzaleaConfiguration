@@ -34,7 +34,7 @@ public class ConfigureCommand extends CommandNode {
             } else if (arguments.size() > 3 && arguments.is(2, SET)) {
                 return properties.stream()
                         .filter(p -> p.getName().equals(arguments.get(1)))
-                        .findFirst().map(p -> p.onSuggest(sender, arguments.subArguments(3)))
+                        .findFirst().map(p -> p.get(sender, arguments.subArguments(3)))
                         .orElse(List.of());
             }
         }
@@ -49,7 +49,7 @@ public class ConfigureCommand extends CommandNode {
 
         switch (action) {
             case SET -> {
-                property.onExecute(sender, arguments.subArguments(3));
+                property.set(sender, arguments.subArguments(3));
                 sender.sendMessage("Property " + TextUtil.getName(property) + " updated.");
             }
             case RESET -> {

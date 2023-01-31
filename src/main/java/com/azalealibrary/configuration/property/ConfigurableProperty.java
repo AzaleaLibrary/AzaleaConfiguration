@@ -19,7 +19,7 @@ public abstract class ConfigurableProperty<T, P> {
     private final String description;
     private final boolean required;
     private final Supplier<P> defaultValue;
-    private P value;
+    private @Nullable P value;
 
     @SafeVarargs
     protected ConfigurableProperty(PropertyType<T> type, Supplier<P> defaultValue, String name, String description, boolean required, AssignmentPolicy<T>... policies) {
@@ -78,9 +78,9 @@ public abstract class ConfigurableProperty<T, P> {
         return value;
     }
 
-    public abstract void onExecute(CommandSender sender, Arguments arguments);
+    public abstract void set(CommandSender sender, Arguments arguments);
 
-    public abstract List<String> onSuggest(CommandSender sender, Arguments arguments);
+    public abstract List<String> get(CommandSender sender, Arguments arguments);
 
     public abstract void serialize(@Nonnull ConfigurationSection configuration);
 
