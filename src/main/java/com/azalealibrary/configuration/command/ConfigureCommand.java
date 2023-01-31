@@ -1,6 +1,6 @@
 package com.azalealibrary.configuration.command;
 
-import com.azalealibrary.configuration.AzaleaConfiguration;
+import com.azalealibrary.configuration.ConfigurationApi;
 import com.azalealibrary.configuration.FileConfiguration;
 import com.azalealibrary.configuration.TextUtil;
 import com.azalealibrary.configuration.property.ConfigurableProperty;
@@ -22,9 +22,9 @@ public class ConfigureCommand extends CommandNode {
     @Override
     public List<String> complete(CommandSender sender, Arguments arguments) {
         if (arguments.size() == 1) {
-            return AzaleaConfiguration.getConfigurations().stream().map(FileConfiguration::getName).toList();
+            return ConfigurationApi.getConfigurations().stream().map(FileConfiguration::getName).toList();
         } else {
-            FileConfiguration configuration = arguments.find(0, "configuration", input -> AzaleaConfiguration.getConfigurations().stream().filter(c -> c.getName().equals(input)).findFirst().orElse(null));
+            FileConfiguration configuration = arguments.find(0, "configuration", input -> ConfigurationApi.getConfigurations().stream().filter(c -> c.getName().equals(input)).findFirst().orElse(null));
             List<ConfigurableProperty<?, ?>> properties = configuration.getConfigurable().getProperties();
 
             if (arguments.size() == 2) {
@@ -43,7 +43,7 @@ public class ConfigureCommand extends CommandNode {
 
     @Override
     public void execute(CommandSender sender, Arguments arguments) {
-        FileConfiguration configuration = arguments.find(0, "configuration", input -> AzaleaConfiguration.getConfigurations().stream().filter(c -> c.getName().equals(input)).findFirst().orElse(null));
+        FileConfiguration configuration = arguments.find(0, "configuration", input -> ConfigurationApi.getConfigurations().stream().filter(c -> c.getName().equals(input)).findFirst().orElse(null));
         ConfigurableProperty<?, ?> property = arguments.find(1, "property", input -> configuration.getConfigurable().getProperties().stream().filter(p -> p.getName().equals(input)).findFirst().orElse(null));
         String action = arguments.matchesAny(2, "action", SET, RESET, INFO);
 
