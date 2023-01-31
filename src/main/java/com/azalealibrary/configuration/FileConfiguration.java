@@ -71,9 +71,7 @@ public class FileConfiguration {
 
         if (!file.exists()) {
             try {
-                if (file.createNewFile()) {
-                    plugin.getLogger().warning("Could not create file for configuration '" + name + "'.");
-                }
+                file.createNewFile();
             } catch (Exception exception) {
                 plugin.getLogger().log(Level.WARNING, exception, () -> "Could not create file for configuration '" + name + "'.");
             }
