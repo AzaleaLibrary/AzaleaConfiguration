@@ -42,6 +42,6 @@ public final class TextUtil {
                 lines.add(i, lines.remove(i) + " " + words.remove(0));
             }
         }
-        return lines.stream().map(line -> prefix + line.trim()).filter(line -> !line.isBlank()).collect(Collectors.toList());
+        return lines.stream().map(String::trim).filter(l -> !l.isBlank()).map(l -> prefix + l).collect(Collectors.toList());
     }
 }
