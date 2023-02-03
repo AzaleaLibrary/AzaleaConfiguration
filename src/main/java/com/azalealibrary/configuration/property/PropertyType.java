@@ -142,7 +142,7 @@ public class PropertyType<T> {
     }
 
     public List<String> complete(CommandSender sender, Arguments arguments, @Nullable T currentValue) {
-        return List.of("<" + expected + ">");
+        return arguments.size() == 1 ? List.of("<" + expected + ">") : List.of();
     }
 
     public T parse(CommandSender sender, Arguments arguments, @Nullable T currentValue) {
