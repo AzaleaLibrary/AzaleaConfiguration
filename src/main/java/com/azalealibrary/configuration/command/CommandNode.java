@@ -33,10 +33,10 @@ public class CommandNode extends Command {
             Map.Entry<CommandNode, Arguments> pair = getClosestMatch(sender, getChildren(sender, arguments), arguments, 0, this);
             Optional.ofNullable(pair.getKey()).ifPresent(n -> n.execute(sender, pair.getValue()));
         } catch (AzaleaException exception) {
-            List<String> cropped = new ArrayList<>(TextUtil.split(exception.getMessage(), 58, "[!] "));
+            List<String> cropped = new ArrayList<>(TextUtil.split(exception.getMessage(), 62, "[!] "));
 
             for (String message : exception.getMessages()) {
-                cropped.addAll(TextUtil.split(message, 58, "> "));
+                cropped.addAll(TextUtil.split(message, 62, "> "));
             }
             sender.sendMessage(cropped.stream().map(l -> ChatColor.RED + l).toArray(String[]::new));
         } catch (Exception exception) {
