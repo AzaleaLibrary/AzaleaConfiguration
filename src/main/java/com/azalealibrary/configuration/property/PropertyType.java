@@ -23,10 +23,10 @@ public class PropertyType<T> {
             return Integer.parseInt(arguments.getLast());
         }
     };
-    public static final PropertyType<Float> FLOAT = new PropertyType<>(Float.class, "decimal") {
+    public static final PropertyType<Double> DOUBLE = new PropertyType<>(Double.class, "decimal") {
         @Override
-        public Float parse(CommandSender sender, Arguments arguments, @Nullable Float currentValue) {
-            return Float.parseFloat(arguments.getLast());
+        public Double parse(CommandSender sender, Arguments arguments, @Nullable Double currentValue) {
+            return Double.parseDouble(arguments.getLast());
         }
     };
     public static final PropertyType<Boolean> BOOLEAN = new PropertyType<>(Boolean.class) {
