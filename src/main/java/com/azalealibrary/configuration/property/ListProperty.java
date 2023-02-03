@@ -1,5 +1,6 @@
 package com.azalealibrary.configuration.property;
 
+import com.azalealibrary.configuration.AzaleaException;
 import com.azalealibrary.configuration.command.Arguments;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
@@ -32,7 +33,7 @@ public final class ListProperty<T> extends ConfigurableProperty<T, List<T>> {
             int index = arguments.find(1, "position", input -> Integer.parseInt(input.replace("@", "")));
 
             if (index >= get().size()) {
-                throw new RuntimeException("Specified list position '" + index +"' too large for list of size " + get().size() + ".");
+                throw new AzaleaException("Specified list position '" + index +"' too large for list of size " + get().size() + ".");
             }
 
             if (action.equals(REPLACE)) {

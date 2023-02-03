@@ -1,5 +1,6 @@
 package com.azalealibrary.configuration.command;
 
+import com.azalealibrary.configuration.AzaleaException;
 import org.bukkit.command.Command;
 
 import javax.annotation.Nonnull;
@@ -57,7 +58,7 @@ public final class Arguments extends AbstractList<String> {
         String argument = get(index);
 
         if (argument.equals(EMPTY)) {
-            throw new RuntimeException(String.format("Missing %s argument. Usage: %s", thing, command.getUsage()));
+            throw new AzaleaException(String.format("Missing %s argument. Usage: %s", thing, command.getUsage()));
         }
         return argument;
     }
@@ -66,7 +67,7 @@ public final class Arguments extends AbstractList<String> {
         String argument = notMissing(index, thing);
 
         if (!Arrays.asList(values).contains(argument)) {
-            throw new RuntimeException(String.format("Invalid %s argument provided: '%s'. Usage: %s", thing, argument, command.getUsage()));
+            throw new AzaleaException(String.format("Invalid %s argument provided: '%s'. Usage: %s", thing, argument, command.getUsage()));
         }
         return argument;
     }
@@ -78,11 +79,11 @@ public final class Arguments extends AbstractList<String> {
         try {
             object = consumer.apply(argument);
         } catch (Exception exception) {
-            throw new RuntimeException(String.format("Invalid %s argument provided: '%s'. Usage: %s", thing, argument, command.getUsage()));
+            throw new AzaleaException(String.format("Invalid %s argument provided: '%s'. Usage: %s", thing, argument, command.getUsage()));
         }
 
         if (object == null) {
-            throw new RuntimeException(String.format("Could not find %s '%s'.", thing, argument));
+            throw new AzaleaException(String.format("Could not find %s '%s'.", thing, argument));
         }
         return object;
     }

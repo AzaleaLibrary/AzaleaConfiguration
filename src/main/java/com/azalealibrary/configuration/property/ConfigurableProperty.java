@@ -1,5 +1,6 @@
 package com.azalealibrary.configuration.property;
 
+import com.azalealibrary.configuration.AzaleaException;
 import com.azalealibrary.configuration.command.Arguments;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
@@ -73,7 +74,7 @@ public abstract class ConfigurableProperty<T, P> {
                 .findAny().orElse(null);
 
         if (failedCheck != null) {
-            throw new RuntimeException(failedCheck.getMessage(value));
+            throw new AzaleaException(failedCheck.getMessage(value));
         }
         return value;
     }

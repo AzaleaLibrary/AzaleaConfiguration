@@ -17,7 +17,7 @@ public final class ConfigurationApi {
         FileConfiguration fileConfiguration = new FileConfiguration(name, plugin, configurable);
 
         if (CONFIGURATIONS.contains(fileConfiguration)) {
-            throw new RuntimeException("Configuration '" + name + "' already exists. (" + fileConfiguration + ")");
+            throw new AzaleaException("Configuration '" + name + "' already exists. (" + fileConfiguration + ")");
         }
         CONFIGURATIONS.add(fileConfiguration);
     }

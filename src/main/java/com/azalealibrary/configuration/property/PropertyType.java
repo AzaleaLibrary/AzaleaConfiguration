@@ -1,5 +1,6 @@
 package com.azalealibrary.configuration.property;
 
+import com.azalealibrary.configuration.AzaleaException;
 import com.azalealibrary.configuration.command.Arguments;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -32,7 +33,7 @@ public class PropertyType<T> {
         @Override
         public Boolean parse(CommandSender sender, Arguments arguments, @Nullable Boolean currentValue) {
             if (!arguments.is(0, "true") && !arguments.is(0, "false")) {
-                throw new RuntimeException(); // ensure explicit "true" or "false" text has been provided
+                throw new AzaleaException(); // ensure explicit "true" or "false" text has been provided
             }
             return Boolean.parseBoolean(arguments.getLast());
         }
