@@ -7,12 +7,13 @@ import org.bukkit.configuration.ConfigurationSection;
 import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 public final class Property<T> extends ConfigurableProperty<T, T> {
 
     @SafeVarargs
-    public Property(PropertyType<T> type, T defaultValue, String name, String description, boolean required, AssignmentPolicy<T>... policies) {
-        super(type, () -> defaultValue, name, description, required, policies);
+    public Property(PropertyType<T> type, Supplier<T> defaultValue, String name, String description, boolean required, AssignmentPolicy<T>... policies) {
+        super(type, defaultValue, name, description, required, policies);
     }
 
     @Override
