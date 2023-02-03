@@ -5,7 +5,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 
 import javax.annotation.Nonnull;
-import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
 
@@ -17,12 +16,7 @@ public final class Property<T> extends ConfigurableProperty<T, T> {
     }
 
     @Override
-    public List<String> get(CommandSender sender, Arguments arguments) {
-        return getType().complete(sender, arguments, get());
-    }
-
-    @Override
-    public void set(CommandSender sender, Arguments arguments) {
+    protected void set(CommandSender sender, Arguments arguments) {
         set(verify(getType().parse(sender, arguments, get())));
     }
 

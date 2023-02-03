@@ -24,7 +24,7 @@ public final class ListProperty<T> extends ConfigurableProperty<T, List<T>> {
     }
 
     @Override
-    public void set(CommandSender sender, Arguments arguments) {
+    protected void set(CommandSender sender, Arguments arguments) {
         String action = arguments.matchesAny(0, "list operation", ADD, REMOVE, REPLACE);
 
         if (action.equals(ADD)) {
@@ -45,7 +45,7 @@ public final class ListProperty<T> extends ConfigurableProperty<T, List<T>> {
     }
 
     @Override
-    public List<String> get(CommandSender sender, Arguments arguments) {
+    public List<String> onComplete(CommandSender sender, Arguments arguments) {
         if (arguments.size() == 1) {
             return List.of(ADD, REMOVE, REPLACE);
         } else if (arguments.size() == 2 && !get().isEmpty() && !arguments.is(0, ADD)) {
