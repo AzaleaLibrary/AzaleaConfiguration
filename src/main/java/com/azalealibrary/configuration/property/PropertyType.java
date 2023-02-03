@@ -157,7 +157,7 @@ public class PropertyType<T> {
         return (T) object;
     }
 
-    public  String print(T object) {
+    public String print(T object) {
         return object.toString();
     }
 }
