@@ -1,6 +1,7 @@
 package com.azalealibrary.configuration.command;
 
 import com.azalealibrary.configuration.AzaleaException;
+import com.azalealibrary.configuration.TextUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -31,8 +32,18 @@ public class CommandNode extends Command {
             Arguments arguments = new Arguments(this, List.of(args));
             Map.Entry<CommandNode, Arguments> pair = getClosestMatch(sender, getChildren(sender, arguments), arguments, 0, this);
             Optional.ofNullable(pair.getKey()).ifPresent(n -> n.execute(sender, pair.getValue()));
+        } catch (AzaleaException exception) {
+            List<String> cropped = new ArrayList<>(TextUtil.split(exception.getMessage(), 58, "[!] "));
+
+            for (String message : exception.getMessages()) {
+                cropped.addAll(TextUtil.split(message, 58, "> "));
+            }
+            sender.sendMessage(cropped.stream().map(l -> ChatColor.RED + l).toArray(String[]::new));
         } catch (Exception exception) {
-            handleException(sender, exception);
+            String error = exception.getMessage() != null ? exception.getMessage() : exception.toString();
+            System.err.println(error);
+            exception.printStackTrace();
+            sender.sendMessage(error);
         }
         return true;
     }
@@ -45,8 +56,13 @@ public class CommandNode extends Command {
             try {
                 Map.Entry<CommandNode, Arguments> pair = getClosestMatch(sender, getChildren(sender, arguments), arguments, 0, this);
                 return Optional.ofNullable(pair.getKey()).map(n -> n.complete(sender, pair.getValue())).orElse(new ArrayList<>());
+            } catch (AzaleaException ignored) {
+                return List.of(); // ignore exception
             } catch (Exception exception) {
-                handleException(sender, exception);
+                String error = exception.getMessage() != null ? exception.getMessage() : exception.toString();
+                System.err.println(error);
+                exception.printStackTrace();
+                sender.sendMessage(error);
             }
         }
         return complete(sender, arguments);
@@ -80,19 +96,6 @@ public class CommandNode extends Command {
             map.register(plugin.getName(), command.getConstructor().newInstance());
         } catch (Exception exception) {
             throw new AzaleaException("An error occurred while registering command.", exception.getMessage());
-        }
-    }
-
-    private void handleException(CommandSender sender, Exception exception) {
-        if (exception instanceof AzaleaException azaleaException) {
-            List<String> messages = new ArrayList<>(Collections.singleton(azaleaException.getMessage()));
-            messages.addAll(List.of(azaleaException.getMessages()));
-            sender.sendMessage(messages.stream().map(m -> ChatColor.RED + m).toArray(String[]::new));
-        } else {
-            String error = exception.getMessage() != null ? exception.getMessage() : exception.toString();
-            System.err.println(error);
-            exception.printStackTrace();
-            sender.sendMessage(error);
         }
     }
 }
