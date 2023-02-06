@@ -93,7 +93,6 @@ public class PropertyType<T> {
             return object.getDisplayName();
         }
     };
-
     public static final PropertyType<World> WORLD = new PropertyType<>(World.class) {
         @Override
         public List<String> complete(CommandSender sender, Arguments arguments, @Nullable World currentValue) {
