@@ -8,14 +8,14 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <mc.version>1.19</mc.version>                                                 <!-- default mc version -->
-<!--        <plugins.dir>${project.basedir}/out</plugins.dir>                               &lt;!&ndash; default output dir &ndash;&gt;-->
+        <mc.version>1.19</mc.version>                                                   <!-- default mc version -->
+        <plugins.dir>${project.basedir}/out</plugins.dir>                               <!-- default output dir -->
         <file.name>${project.artifactId}-${mc.version}-${project.version}</file.name>   <!-- archived file name -->
     </properties>
 
-    <groupId>AzaleaLibrary</groupId>
-    <artifactId>AzaleaConfiguration</artifactId>
-    <version>0.0.1</version>
+    <groupId>azalea-library</groupId>
+    <artifactId>azalea-configuration</artifactId>
+    <version>1.0</version>
 
     <repositories>
         <repository>
