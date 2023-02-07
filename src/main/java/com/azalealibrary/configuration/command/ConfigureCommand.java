@@ -1,7 +1,7 @@
 package com.azalealibrary.configuration.command;
 
+import com.azalealibrary.configuration.Configurable;
 import com.azalealibrary.configuration.ConfigurationApi;
-import com.azalealibrary.configuration.FileConfiguration;
 import com.azalealibrary.configuration.TextUtil;
 import com.azalealibrary.configuration.property.ConfigurableProperty;
 import org.bukkit.command.CommandSender;
@@ -22,10 +22,10 @@ public class ConfigureCommand extends CommandNode {
     @Override
     public List<String> complete(CommandSender sender, Arguments arguments) {
         if (arguments.size() == 1) {
-            return ConfigurationApi.getConfigurations().stream().map(FileConfiguration::getName).toList();
+            return ConfigurationApi.getConfigurables().stream().map(Configurable::getName).toList();
         } else {
-            FileConfiguration configuration = arguments.find(0, "configuration", input -> ConfigurationApi.getConfigurations().stream().filter(c -> c.getName().equals(input)).findFirst().orElse(null));
-            List<ConfigurableProperty<?, ?>> properties = configuration.getConfigurable().getProperties();
+            Configurable configuration = arguments.find(0, "configuration", input -> ConfigurationApi.getConfigurables().stream().filter(c -> c.getName().equals(input)).findFirst().orElse(null));
+            List<ConfigurableProperty<?, ?>> properties = configuration.getProperties();
 
             if (arguments.size() == 2) {
                 return properties.stream().map(ConfigurableProperty::getName).toList();
@@ -43,8 +43,8 @@ public class ConfigureCommand extends CommandNode {
 
     @Override
     public void execute(CommandSender sender, Arguments arguments) {
-        FileConfiguration configuration = arguments.find(0, "configuration", input -> ConfigurationApi.getConfigurations().stream().filter(c -> c.getName().equals(input)).findFirst().orElse(null));
-        ConfigurableProperty<?, ?> property = arguments.find(1, "property", input -> configuration.getConfigurable().getProperties().stream().filter(p -> p.getName().equals(input)).findFirst().orElse(null));
+        Configurable configuration = arguments.find(0, "configuration", input -> ConfigurationApi.getConfigurables().stream().filter(c -> c.getName().equals(input)).findFirst().orElse(null));
+        ConfigurableProperty<?, ?> property = arguments.find(1, "property", input -> configuration.getProperties().stream().filter(p -> p.getName().equals(input)).findFirst().orElse(null));
         String action = arguments.matchesAny(2, "action", SET, RESET, INFO);
 
         switch (action) {
