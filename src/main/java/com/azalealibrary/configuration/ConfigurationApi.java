@@ -35,6 +35,10 @@ public final class ConfigurationApi {
         return configurable;
     }
 
+    public static List<FileConfiguration> load(Plugin plugin, String path) {
+        return load(plugin, new File(plugin.getDataFolder(), path));
+    }
+
     public static List<FileConfiguration> load(Plugin plugin, File directory) {
         if (!directory.exists() & !directory.mkdir() || !directory.isDirectory()) {
             throw new AzaleaException(directory.getName() + " is not a directory.");
@@ -47,6 +51,10 @@ public final class ConfigurationApi {
             return extension.equals("yaml") || extension.equals("yml");
         });
         return files != null ? Arrays.stream(files).map(file -> new FileConfiguration(plugin, file)).toList() : List.of();
+    }
+
+    public static FileConfiguration create(Plugin plugin, String path, Configurable configurable) {
+        return create(plugin, new File(plugin.getDataFolder(), path), configurable);
     }
 
     public static FileConfiguration create(Plugin plugin, File directory, Configurable configurable) {
