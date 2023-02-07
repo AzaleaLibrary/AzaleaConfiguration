@@ -25,8 +25,6 @@ public final class ConfigurationApi {
     }
 
     public static <C extends Configurable> C unregister(C configurable) {
-        System.err.println(CONFIGURABLES.stream().filter(c -> c.getName().equals(configurable.getName())).findAny());
-
         if (CONFIGURABLES.stream().noneMatch(c -> c.getName().equals(configurable.getName()))) {
             throw new AzaleaException("Configuration with name '" + configurable.getName() + "' does not exists.");
         }
