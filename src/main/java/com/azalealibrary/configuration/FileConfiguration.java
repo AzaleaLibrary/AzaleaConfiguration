@@ -12,60 +12,54 @@ import java.util.logging.Level;
 public class FileConfiguration {
 
     private final Plugin plugin;
-    private final Configurable configurable;
     private final File file;
+    private final YamlConfiguration configuration;
 
-    public FileConfiguration(Plugin plugin, Configurable configurable, String name) {
-        this(plugin, configurable, new File(plugin.getDataFolder(), name + ".yml"));
-    }
-
-    public FileConfiguration(Plugin plugin, Configurable configurable, File file) {
+    public FileConfiguration(Plugin plugin, File file) {
         this.plugin = plugin;
-        this.configurable = configurable;
         this.file = file;
+        this.configuration = YamlConfiguration.loadConfiguration(file);
     }
 
-    public String getName() {
-        return file.getName().substring(0, file.getName().lastIndexOf('.'));
+    public String getConfigurationName() {
+        return file.getName();
     }
 
-    public Configurable getConfigurable() {
-        return configurable;
+    public YamlConfiguration getYamlConfiguration() {
+        return configuration;
     }
 
-    public void load() {
-        plugin.getLogger().log(Level.INFO, "Loading '" + getName() + "' data.");
-        YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
-
+    public void load(Configurable configurable) {
         try {
+            plugin.getLogger().log(Level.INFO, "Loading '" + configurable.getName() + "' data.");
+
             for (ConfigurableProperty<?, ?> property : configurable.getProperties()) {
-                property.deserialize(config);
+                property.deserialize(configuration);
             }
         } catch (Exception exception) {
-            plugin.getLogger().log(Level.WARNING, exception, () -> "Could not load '" + getName() + "' data.");
+            plugin.getLogger().log(Level.WARNING, exception, () -> "Could not getConfigurables '" + configurable.getName() + "' data.");
         }
     }
 
-    public void save() {
-        plugin.getLogger().log(Level.INFO, "Saving '" + getName() + "' data.");
-        YamlConfiguration config = new YamlConfiguration();
-
+    public void save(Configurable configurable) {
         try {
+            plugin.getLogger().log(Level.INFO, "Saving '" + configurable.getName() + "' data.");
+
             for (ConfigurableProperty<?, ?> property : configurable.getProperties()) {
-                property.serialize(config);
+                property.serialize(configuration);
                 List<String> comments = TextUtil.printable(property, 80).stream().map(ChatColor::stripColor).toList();
-                config.setComments(property.getName(), comments);
+                configuration.setComments(property.getName(), comments);
             }
-            config.save(file);
+            configuration.save(file);
         } catch (Exception exception) {
-            plugin.getLogger().log(Level.WARNING, exception, () -> "Could not save '" + getName() + "'.");
+            plugin.getLogger().log(Level.WARNING, exception, () -> "Could not save '" + configurable.getName() + "'.");
         }
     }
 
     @Override
     public boolean equals(Object object) {
         if (object instanceof FileConfiguration fileConfiguration) {
-            return file.equals(fileConfiguration.file) && plugin.equals(fileConfiguration.plugin);
+            return plugin.equals(fileConfiguration.plugin) && file.equals(fileConfiguration.file);
         }
         return super.equals(object);
     }
