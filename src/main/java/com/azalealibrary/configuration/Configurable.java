@@ -7,6 +7,8 @@ import java.util.Optional;
 
 public interface Configurable {
 
+    String getName();
+
     List<ConfigurableProperty<?, ?>> getProperties();
 
     default Optional<ConfigurableProperty<?, ?>> getProperty(ConfigurableProperty<?, ?> property) {
