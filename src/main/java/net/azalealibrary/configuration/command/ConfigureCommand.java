@@ -1,9 +1,9 @@
-package com.azalealibrary.configuration.command;
+package net.azalealibrary.configuration.command;
 
-import com.azalealibrary.configuration.Configurable;
-import com.azalealibrary.configuration.ConfigurationApi;
-import com.azalealibrary.configuration.TextUtil;
-import com.azalealibrary.configuration.property.ConfigurableProperty;
+import net.azalealibrary.configuration.Configurable;
+import net.azalealibrary.configuration.ConfigurationApi;
+import net.azalealibrary.configuration.TextUtil;
+import net.azalealibrary.configuration.property.ConfigurableProperty;
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;

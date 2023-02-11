@@ -1,4 +1,4 @@
-package com.azalealibrary.configuration.property;
+package net.azalealibrary.configuration.property;
 
 import org.bukkit.ChatColor;
 

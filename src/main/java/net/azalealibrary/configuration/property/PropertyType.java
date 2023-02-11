@@ -1,7 +1,7 @@
-package com.azalealibrary.configuration.property;
+package net.azalealibrary.configuration.property;
 
-import com.azalealibrary.configuration.AzaleaException;
-import com.azalealibrary.configuration.command.Arguments;
+import net.azalealibrary.configuration.AzaleaException;
+import net.azalealibrary.configuration.command.Arguments;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;

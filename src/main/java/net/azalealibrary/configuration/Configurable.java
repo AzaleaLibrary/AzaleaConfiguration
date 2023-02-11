@@ -1,6 +1,6 @@
-package com.azalealibrary.configuration;
+package net.azalealibrary.configuration;
 
-import com.azalealibrary.configuration.property.ConfigurableProperty;
+import net.azalealibrary.configuration.property.ConfigurableProperty;
 
 import java.util.List;
 import java.util.Optional;

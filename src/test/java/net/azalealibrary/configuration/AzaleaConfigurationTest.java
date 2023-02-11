@@ -1,4 +1,4 @@
-package com.azalealibrary.configuration;
+package net.azalealibrary.configuration;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import org.junit.jupiter.api.AfterEach;

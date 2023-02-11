@@ -1,7 +1,7 @@
-package com.azalealibrary.configuration;
+package net.azalealibrary.configuration;
 
-import com.azalealibrary.configuration.command.CommandNode;
-import com.azalealibrary.configuration.command.ConfigureCommand;
+import net.azalealibrary.configuration.command.CommandNode;
+import net.azalealibrary.configuration.command.ConfigureCommand;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.java.JavaPluginLoader;

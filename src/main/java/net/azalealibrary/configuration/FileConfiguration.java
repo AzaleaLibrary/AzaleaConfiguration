@@ -1,6 +1,6 @@
-package com.azalealibrary.configuration;
+package net.azalealibrary.configuration;
 
-import com.azalealibrary.configuration.property.ConfigurableProperty;
+import net.azalealibrary.configuration.property.ConfigurableProperty;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;

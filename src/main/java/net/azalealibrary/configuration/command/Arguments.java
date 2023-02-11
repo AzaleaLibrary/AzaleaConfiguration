@@ -1,6 +1,6 @@
-package com.azalealibrary.configuration.command;
+package net.azalealibrary.configuration.command;
 
-import com.azalealibrary.configuration.AzaleaException;
+import net.azalealibrary.configuration.AzaleaException;
 import org.bukkit.command.Command;
 
 import javax.annotation.Nonnull;

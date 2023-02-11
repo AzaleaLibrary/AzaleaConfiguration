@@ -1,7 +1,7 @@
-package com.azalealibrary.configuration.command;
+package net.azalealibrary.configuration.command;
 
-import com.azalealibrary.configuration.AzaleaException;
-import com.azalealibrary.configuration.TextUtil;
+import net.azalealibrary.configuration.AzaleaException;
+import net.azalealibrary.configuration.TextUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;

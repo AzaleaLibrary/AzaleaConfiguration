@@ -1,7 +1,7 @@
-package com.azalealibrary.configuration;
+package net.azalealibrary.configuration;
 
-import com.azalealibrary.configuration.property.ConfigurableProperty;
-import com.azalealibrary.configuration.property.ListProperty;
+import net.azalealibrary.configuration.property.ConfigurableProperty;
+import net.azalealibrary.configuration.property.ListProperty;
 import org.bukkit.ChatColor;
 import org.bukkit.map.MinecraftFont;
 

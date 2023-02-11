@@ -1,4 +1,4 @@
-package com.azalealibrary.configuration;
+package net.azalealibrary.configuration;
 
 import org.bukkit.plugin.Plugin;
 
