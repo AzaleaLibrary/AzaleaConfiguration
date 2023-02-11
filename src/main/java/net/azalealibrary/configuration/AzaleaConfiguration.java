@@ -25,12 +25,8 @@ public final class AzaleaConfiguration extends JavaPlugin {
     }
 
     @Override
-    public void onEnable() {
-        ConfigurationApi.getConfigurations().forEach(FileConfiguration::load);
-    }
+    public void onEnable() { }
 
     @Override
-    public void onDisable() {
-        ConfigurationApi.getConfigurations().forEach(FileConfiguration::save);
-    }
+    public void onDisable() { }
 }
