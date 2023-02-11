@@ -1,28 +1,36 @@
-## Boilerplate Minecraft Plugin
+<div>
+  <a href="https://github.com/AzaleaLibrary/AzaleaConfiguration/actions/workflows/ci.yml">
+    <img alt="Azalea Configuration CI" src="https://github.com/AzaleaLibrary/AzaleaConfiguration/actions/workflows/ci.yml/badge.svg?branch=master" />
+  </a>
+  <a href="https://azalealibrary.net/#/releases/net/azalealibrary/configuration">
+    <img src="https://azalealibrary.net/api/badge/latest/releases/net/azalealibrary/configuration?color=40c14a&name=Azalea%20Configuration&prefix=v" />
+  </a>
+</div>
 
-This is repo provides some template code for setting up a plugin with **Maven**.
+# AzaleaConfiguration
 
-#### Default minecraft version: `1.19`
-> ℹ️ The version can be change by updating the `mc.version` maven property.
+### How to
 
-#### Default output directory: `out/`
-> ℹ️ To make your life easier, the output directory of the jar file can be specified directly to your spigot server *plugins* directory by updating the `plugins.dir` maven property.
+#### Import `AzaleaConfiguration`
 
-#### Default file name: `__PROJ_NAME__-mc.version-__PROJ_VERSION__.jar`
-> ℹ️ The name of the archived jar file name.
+In **pom.xml**:
 
-Maven properties can be changed directly in **pom.xml** or, assuming you are using Intellij, via a **Run Configuration** (Run > Edit Configurations... > *maven run*, under *Java Options*/*Properties*).
-This is useful when packaging your plugin for relatively newer minecraft versions (ei. 1.19, 1.18, 1.17) where the spigot API hasn't changed much.
-
-#### Example
-> plugins.dir=/path/to/plugins/directory,mc.version=1.19,file.name=MyPlugin
-
-### Setup
-
-To fully set up the plugin, there are a few preliminary steps to take before fully customized.
-
-#### In *pom.xml*, replace:
-
-* `__PROJ_GROUP__` - the project's group id.
-* `__PROJ_NAME__` - the project's artifact id (name).
-* `__PROJ_VERSION__` - the project's version (ei `1.0-SNAPSHOT`).
+```xml
+    <repositories>
+        <!-- other repositories -->
+        <repository>
+            <id>azalea-repo-releases</id>
+            <name>Azalea Repository</name>
+            <url>https://azalealibrary.net/releases</url>
+        </repository>
+    </repositories>
+    
+    <dependencies>
+        <!-- other dependencies -->
+        <dependency>
+            <groupId>net.azalealibrary</groupId>
+            <artifactId>configuration</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
+```
