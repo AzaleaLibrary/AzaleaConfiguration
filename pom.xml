@@ -30,13 +30,9 @@
 
     <distributionManagement>
         <repository>
-            <id>azalea-repo-releases</id>
+            <id>azalea-repo</id>
             <url>https://azalealibrary.net/releases</url>
         </repository>
-        <snapshotRepository>
-            <id>azalea-repo-snapshots</id>
-            <url>https://azalealibrary.net/snapshots</url>
-        </snapshotRepository>
     </distributionManagement>
 
     <dependencies>
