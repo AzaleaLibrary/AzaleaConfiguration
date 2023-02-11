@@ -21,10 +21,6 @@ public class FileConfiguration {
         this.configuration = YamlConfiguration.loadConfiguration(file);
     }
 
-    public String getConfigurationName() {
-        return file.getName();
-    }
-
     public YamlConfiguration getYamlConfiguration() {
         return configuration;
     }
@@ -37,7 +33,7 @@ public class FileConfiguration {
                 property.deserialize(configuration);
             }
         } catch (Exception exception) {
-            plugin.getLogger().log(Level.WARNING, exception, () -> "Could not getConfigurables '" + configurable.getName() + "' data.");
+            plugin.getLogger().log(Level.WARNING, exception, () -> "Could not load '" + configurable.getName() + "' data.");
         }
     }
 
