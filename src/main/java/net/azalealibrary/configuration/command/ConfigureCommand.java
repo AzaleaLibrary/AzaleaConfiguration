@@ -22,9 +22,9 @@ public class ConfigureCommand extends CommandNode {
     @Override
     public List<String> complete(CommandSender sender, Arguments arguments) {
         if (arguments.size() == 1) {
-            return ConfigurationApi.getConfigurables().stream().map(Configurable::getName).toList();
+            return ConfigurationApi.getConfigurations().stream().map(Configurable::getName).toList();
         } else {
-            Configurable configuration = arguments.find(0, "configuration", input -> ConfigurationApi.getConfigurables().stream().filter(c -> c.getName().equals(input)).findFirst().orElse(null));
+            Configurable configuration = arguments.find(0, "configuration", ConfigurationApi::getConfiguration);
             List<ConfigurableProperty<?, ?>> properties = configuration.getProperties();
 
             if (arguments.size() == 2) {
@@ -43,7 +43,7 @@ public class ConfigureCommand extends CommandNode {
 
     @Override
     public void execute(CommandSender sender, Arguments arguments) {
-        Configurable configuration = arguments.find(0, "configuration", input -> ConfigurationApi.getConfigurables().stream().filter(c -> c.getName().equals(input)).findFirst().orElse(null));
+        Configurable configuration = arguments.find(0, "configuration", ConfigurationApi::getConfiguration);
         ConfigurableProperty<?, ?> property = arguments.find(1, "property", input -> configuration.getProperties().stream().filter(p -> p.getName().equals(input)).findFirst().orElse(null));
         String action = arguments.matchesAny(2, "action", SET, RESET, INFO);
 

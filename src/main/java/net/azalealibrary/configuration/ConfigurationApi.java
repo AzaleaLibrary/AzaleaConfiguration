@@ -2,6 +2,7 @@ package net.azalealibrary.configuration;
 
 import org.bukkit.plugin.Plugin;
 
+import javax.annotation.Nullable;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,27 +10,35 @@ import java.util.List;
 
 public final class ConfigurationApi {
 
-    private static final List<Configurable> CONFIGURABLES = new ArrayList<>();
+    private static final List<Configuration> CONFIGURATIONS = new ArrayList<>();
 
-    public static List<Configurable> getConfigurables() {
-        return CONFIGURABLES;
+    public static List<Configuration> getConfigurations() {
+        return CONFIGURATIONS;
+    }
+
+    public static @Nullable Configuration getConfiguration(String name) {
+        return CONFIGURATIONS.stream().filter(c -> c.getName().equals(name)).findFirst().orElse(null);
     }
 
     public static <C extends Configurable> C register(C configurable) {
-        if (CONFIGURABLES.stream().anyMatch(c -> c.getName().equals(configurable.getName()))) {
-            throw new AzaleaException("Configuration with name '" + configurable.getName() + "' already exists.");
-        }
+        Configuration configuration = getConfiguration(configurable.getName());
 
-        CONFIGURABLES.add(configurable);
+        if (configuration != null) {
+            configuration.merge(configurable);
+        } else {
+            Configuration newConfiguration = new Configuration(configurable.getName());
+            newConfiguration.merge(configurable);
+            CONFIGURATIONS.add(newConfiguration);
+        }
         return configurable;
     }
 
     public static <C extends Configurable> C unregister(C configurable) {
-        if (CONFIGURABLES.stream().noneMatch(c -> c.getName().equals(configurable.getName()))) {
-            throw new AzaleaException("Configuration with name '" + configurable.getName() + "' does not exists.");
-        }
+        Configuration configuration = getConfiguration(configurable.getName());
 
-        CONFIGURABLES.remove(configurable);
+        if (configuration != null) {
+            configuration.unmerge(configurable);
+        }
         return configurable;
     }
 
@@ -48,14 +57,24 @@ public final class ConfigurationApi {
             String extension = dotIndex > 0 ? name.substring(dotIndex + 1) : "";
             return extension.equals("yaml") || extension.equals("yml");
         });
-        return files != null ? Arrays.stream(files).map(file -> new FileConfiguration(plugin, file)).toList() : List.of();
+        return files != null ? Arrays.stream(files).map(f -> new FileConfiguration(plugin, f)).toList() : List.of();
     }
 
-    public static FileConfiguration create(Plugin plugin, String path, Configurable configurable) {
-        return create(plugin, new File(plugin.getDataFolder(), path), configurable);
+    public static FileConfiguration create(Plugin plugin, String path, String name) {
+        return create(plugin, new File(plugin.getDataFolder(), path), name);
     }
 
-    public static FileConfiguration create(Plugin plugin, File directory, Configurable configurable) {
-        return new FileConfiguration(plugin, new File(directory, configurable.getName() + ".yml"));
+    public static FileConfiguration create(Plugin plugin, File directory, String name) {
+        File file = new File(directory, name + ".yml");
+
+        try {
+            if (!file.exists() & !file.createNewFile()) {
+                throw new AzaleaException(directory.getName() + " is not a directory.");
+            }
+        } catch (Exception exception) {
+            throw new AzaleaException("Could not create configuration file '" + name + "'.", exception.getMessage());
+        }
+
+        return new FileConfiguration(plugin, file);
     }
 }
