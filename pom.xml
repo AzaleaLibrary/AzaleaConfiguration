@@ -34,7 +34,7 @@
             <url>https://azalealibrary.net/releases</url>
         </repository>
         <snapshotRepository>
-            <id>azalea-repo-snapshot</id>
+            <id>azalea-repo-snapshots</id>
             <url>https://azalealibrary.net/snapshots</url>
         </snapshotRepository>
     </distributionManagement>
