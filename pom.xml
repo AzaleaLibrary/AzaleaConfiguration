@@ -13,8 +13,8 @@
         <file.name>${project.artifactId}-${mc.version}-${project.version}</file.name>   <!-- archived file name -->
     </properties>
 
-    <groupId>azalea-library</groupId>
-    <artifactId>azalea-configuration</artifactId>
+    <groupId>net.azalealibrary</groupId>
+    <artifactId>configuration</artifactId>
     <version>1.0</version>
 
     <repositories>
@@ -30,9 +30,13 @@
 
     <distributionManagement>
         <repository>
-            <id>azalea-repo</id>
+            <id>azalea-repo-releases</id>
             <url>https://azalealibrary.net/releases</url>
         </repository>
+        <snapshotRepository>
+            <id>azalea-repo-snapshot</id>
+            <url>https://azalealibrary.net/snapshots</url>
+        </snapshotRepository>
     </distributionManagement>
 
     <dependencies>
