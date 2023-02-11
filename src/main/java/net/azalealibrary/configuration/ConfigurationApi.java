@@ -42,11 +42,36 @@ public final class ConfigurationApi {
         return configurable;
     }
 
-    public static List<FileConfiguration> load(Plugin plugin, String path) {
-        return load(plugin, new File(plugin.getDataFolder(), path));
+    public static FileConfiguration load(Plugin plugin, String name) {
+        return load(plugin, "/", name);
     }
 
-    public static List<FileConfiguration> load(Plugin plugin, File directory) {
+    public static FileConfiguration load(Plugin plugin, String path, String name) {
+        File directory = new File(plugin.getDataFolder(), path);
+
+        if (!directory.exists() & !directory.mkdir() || !directory.isDirectory()) {
+            throw new AzaleaException(directory.getName() + " is not a directory.");
+        }
+
+        File file = new File(directory, name + ".yml");
+
+        try {
+            if (!file.exists() & !file.createNewFile()) {
+                throw new AzaleaException(directory.getName() + " is not a directory.");
+            }
+        } catch (Exception exception) {
+            throw new AzaleaException("Could not create configuration file '" + name + "'.", exception.getMessage());
+        }
+        return new FileConfiguration(plugin, file);
+    }
+
+    public static List<FileConfiguration> loadAll(Plugin plugin) {
+        return loadAll(plugin, "/");
+    }
+
+    public static List<FileConfiguration> loadAll(Plugin plugin, String path) {
+        File directory = new File(plugin.getDataFolder(), path);
+
         if (!directory.exists() & !directory.mkdir() || !directory.isDirectory()) {
             throw new AzaleaException(directory.getName() + " is not a directory.");
         }
@@ -58,23 +83,5 @@ public final class ConfigurationApi {
             return extension.equals("yaml") || extension.equals("yml");
         });
         return files != null ? Arrays.stream(files).map(f -> new FileConfiguration(plugin, f)).toList() : List.of();
-    }
-
-    public static FileConfiguration create(Plugin plugin, String path, String name) {
-        return create(plugin, new File(plugin.getDataFolder(), path), name);
-    }
-
-    public static FileConfiguration create(Plugin plugin, File directory, String name) {
-        File file = new File(directory, name + ".yml");
-
-        try {
-            if (!file.exists() & !file.createNewFile()) {
-                throw new AzaleaException(directory.getName() + " is not a directory.");
-            }
-        } catch (Exception exception) {
-            throw new AzaleaException("Could not create configuration file '" + name + "'.", exception.getMessage());
-        }
-
-        return new FileConfiguration(plugin, file);
     }
 }
