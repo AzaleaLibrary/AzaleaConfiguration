@@ -23,8 +23,18 @@ jobs:
           java-version: 17
           distribution: temurin
 
-      - name: build
-        uses: gradle/gradle-build-action@v2
-
       - name: test
         run:  mvn -ntp clean test
+        
+      - name: maven-settings-action
+        uses: s4u/maven-settings-action@v2.8.0
+        with:
+          servers: |
+            [{
+                "id": "azalea-repo",
+                "username": "${{ secrets.REPO_USERNAME }}",
+                "password": "${{ secrets.REPO_PASSWORD }}"
+            }]
+
+      - name: deploy
+        run:  mvn deploy
