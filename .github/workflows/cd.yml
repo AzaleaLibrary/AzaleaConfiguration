@@ -24,12 +24,12 @@ jobs:
 
       - uses: s4u/maven-settings-action@v2.8.0
         with:
-        servers: |
-          [{
-            "id": "azalea-repo",
-            "username": "test",
-            "password": "test"
-          }]
+          servers: |
+            [{
+              "id": "azalea-repo",
+              "username": "test",
+              "password": "test"
+            }]
 
       - name: deploy
         run:  mvn clean test deploy -ntp
