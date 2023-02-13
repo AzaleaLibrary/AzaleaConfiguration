@@ -64,6 +64,30 @@ public class PropertyType<T> {
             return new Vector(x, y, z);
         }
     };
+    public static final PropertyType<Location> LOCATION = new PropertyType<>(Location.class, "position") {
+        @Override
+        public List<String> complete(CommandSender sender, Arguments arguments, @Nullable Location currentValue) {
+            if (sender instanceof Player player) {
+                Location location = player.getLocation();
+                double x = location.getBlockX() + .5;
+                double y = location.getBlockY() + .5;
+                double z = location.getBlockZ() + .5;
+                return List.of(x + " " + y + " " + z);
+            }
+            return super.complete(sender, arguments, currentValue);
+        }
+
+        @Override
+        public Location parse(CommandSender sender, Arguments arguments, @Nullable Location currentValue) {
+            if (sender instanceof Player player) {
+                double x = arguments.find(0, "x", Double::parseDouble);
+                double y = arguments.find(1, "y", Double::parseDouble);
+                double z = arguments.find(2, "z", Double::parseDouble);
+                return new Location(player.getWorld(), x, y, z);
+            }
+            return super.parse(sender, arguments, currentValue);
+        }
+    };
     public static final PropertyType<Player> PLAYER = new PropertyType<>(Player.class) {
         @Override
         public List<String> complete(CommandSender sender, Arguments arguments, @Nullable Player currentValue) {
