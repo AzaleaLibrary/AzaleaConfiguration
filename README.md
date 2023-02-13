@@ -12,9 +12,9 @@
 
 # AzaleaConfiguration
 
-### How to
+## How to
 
-#### Import `AzaleaConfiguration`
+### Import `AzaleaConfiguration`
 
 In **pom.xml**:
 
@@ -38,9 +38,9 @@ In **pom.xml**:
     </dependencies>
 ```
 
-#### Usage
+### Usage
 
-##### 1. Creating a configuration file and registering it
+#### 1. Creating a configuration file and registering it
 
 Assume we want to a place to store some global configuration for a plugin. The first step is to declare a class implementing the `Configurable` interface:
 
@@ -111,7 +111,7 @@ Note, the api does not handle saving the data of your configuration, therefore i
 
 This can be done during the disabling cycle of the plugin, as shown in the example above.
 
-##### 2. Dynamic configurations
+#### 2. Dynamic configurations
 
 Suppose we have a list of `MyConfiguration` configurations we want to load from the `<plugin_data_folder>/my_configurations` directory with `ConfigurationApi#loadAll`.
 
