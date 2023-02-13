@@ -10,7 +10,6 @@ on:
 jobs:
   build:
 
-    name: Test
     runs-on: ubuntu-latest
 
     steps:
@@ -22,19 +21,12 @@ jobs:
         with:
           java-version: 17
           distribution: temurin
+          server-id: azalea-repo
+          server-username: ${{ secrets.REPO_USERNAME }}
+          server-password: ${{ secrets.REPO_PASSWORD }}
 
       - name: test
         run:  mvn -ntp clean test
-        
-      - name: maven-settings-action
-        uses: s4u/maven-settings-action@v2.8.0
-        with:
-          servers: |
-            [{
-                "id": "azalea-repo",
-                "username": "${{ secrets.REPO_USERNAME }}",
-                "password": "${{ secrets.REPO_PASSWORD }}"
-            }]
 
       - name: deploy
         run:  mvn deploy
