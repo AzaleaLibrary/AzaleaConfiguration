@@ -1,0 +1,27 @@
+name: Plugin CD
+
+on:
+  push:
+    branches:
+      - production
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+
+      - name: setup
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: temurin
+          server-id: azalea-repo
+          server-username: ${{ secrets.REPO_USERNAME }}
+          server-password: ${{ secrets.REPO_PASSWORD }}
+
+      - name: deploy
+        run:  mvn clean test deploy -ntp
