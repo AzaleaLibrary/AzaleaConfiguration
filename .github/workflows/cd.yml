@@ -1,7 +1,8 @@
 name: Plugin CD
 
-release:
-  types: [created]
+on:
+  release:
+    types: [created]
 
 jobs:
   deployment:
