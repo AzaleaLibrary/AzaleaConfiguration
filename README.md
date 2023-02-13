@@ -1,6 +1,9 @@
 <div>
   <a href="https://github.com/AzaleaLibrary/AzaleaConfiguration/actions/workflows/ci.yml">
-    <img alt="Azalea Configuration CI" src="https://github.com/AzaleaLibrary/AzaleaConfiguration/actions/workflows/ci.yml/badge.svg?branch=master" />
+    <img alt="Plugin CI" src="https://github.com/AzaleaLibrary/AzaleaConfiguration/actions/workflows/ci.yml/badge.svg?branch=master" />
+  </a>
+    <a href="https://github.com/AzaleaLibrary/AzaleaConfiguration/actions/workflows/cd.yml">
+    <img alt="Plugin CD" src="https://github.com/AzaleaLibrary/AzaleaConfiguration/actions/workflows/cd.yml/badge.svg?branch=production" />
   </a>
   <a href="https://azalealibrary.net/#/releases/net/azalealibrary/configuration">
     <img src="https://azalealibrary.net/api/badge/latest/releases/net/azalealibrary/configuration?color=40c14a&name=Azalea%20Configuration&prefix=v" />
