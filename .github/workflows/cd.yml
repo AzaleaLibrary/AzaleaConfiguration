@@ -8,6 +8,8 @@ on:
 jobs:
   build:
 
+    environment: CD # use CD env
+
     runs-on: ubuntu-latest
 
     steps:
