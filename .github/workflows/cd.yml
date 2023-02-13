@@ -6,7 +6,7 @@ on:
       - production
 
 jobs:
-  build:
+  deployment:
 
     environment: CD # use CD env
 
@@ -27,8 +27,8 @@ jobs:
           servers: |
             [{
               "id": "azalea-repo",
-              "username": "test",
-              "password": "test"
+              "username": "${{ secrets.REPO_USERNAME }}",
+              "password": "${{ secrets.REPO_PASSWORD }}"
             }]
 
       - name: deploy
