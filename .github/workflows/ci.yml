@@ -18,15 +18,6 @@ jobs:
 
       - name: setup
         uses: actions/setup-java@v3
-        with:
-          java-version: 17
-          distribution: temurin
-          server-id: azalea-repo
-          server-username: ${{ secrets.REPO_USERNAME }}
-          server-password: ${{ secrets.REPO_PASSWORD }}
 
       - name: test
         run:  mvn clean test -ntp
-
-      - name: deploy
-        run:  mvn deploy -ntp
