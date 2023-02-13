@@ -100,7 +100,7 @@ class MyPlugin extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        // save `myConfiguration` as yaml files in "<plugin_data_folder>/my_configurations.yml"
+        // save `myConfiguration` as a yaml file ("<plugin_data_folder>/my_configurations.yml")
         FileConfiguration fileConfiguration = ConfigurationApi.load(this, myConfiguration.getName());
         fileConfiguration.save(myConfiguration);       // save properties to file
     }
