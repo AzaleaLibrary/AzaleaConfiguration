@@ -26,7 +26,7 @@ jobs:
           server-password: ${{ secrets.REPO_PASSWORD }}
 
       - name: test
-        run:  mvn -ntp clean test
+        run:  mvn clean test -ntp
 
       - name: deploy
-        run:  mvn deploy
+        run:  mvn deploy -ntp
