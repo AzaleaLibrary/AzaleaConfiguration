@@ -1,9 +1,7 @@
 name: Plugin CD
 
-on:
-  push:
-    branches:
-      - production
+release:
+  types: [created]
 
 jobs:
   deployment:
