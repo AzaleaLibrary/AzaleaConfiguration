@@ -8,9 +8,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <mc.version>1.19</mc.version>                                                   <!-- default mc version -->
-        <plugins.dir>${project.basedir}/out</plugins.dir>                               <!-- default output dir -->
-        <file.name>${project.artifactId}-${mc.version}-${project.version}</file.name>   <!-- archived file name -->
+        <mcVersion>1.19</mcVersion> <!-- default mc version -->
     </properties>
 
     <groupId>net.azalealibrary</groupId>
@@ -40,7 +38,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>${mc.version}-R0.1-SNAPSHOT</version>
+            <version>${mcVersion}-R0.1-SNAPSHOT</version>
         </dependency>
         <!-- plugin annotations -->
         <dependency>
@@ -58,40 +56,26 @@
     </dependencies>
 
     <build>
-        <finalName>${file.name}</finalName>
-
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.1</version>
             </plugin>
-            <!-- TODO - comment out before deployment -->
             <plugin>
-                <groupId>com.coderplus.maven.plugins</groupId>
-                <artifactId>copy-rename-maven-plugin</artifactId>
-                <version>1.0.1</version>
-                <executions>
-                    <execution>
-                        <id>rename-file</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>rename</goal>
-                        </goals>
-                        <configuration>
-                            <sourceFile>${project.basedir}/target/${file.name}.jar</sourceFile>
-                            <destinationFile>${plugins.dir}/${file.name}.jar</destinationFile>
-                        </configuration>
-                    </execution>
-                </executions>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.5.0</version>
+                <configuration>
+                    <artifactItems>
+                        <artifactItem>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>${project.artifactId}</artifactId>
+                            <version>${project.version}</version>
+                            <overWrite>true</overWrite>
+                        </artifactItem>
+                    </artifactItems>
+                </configuration>
             </plugin>
         </plugins>
     </build>
