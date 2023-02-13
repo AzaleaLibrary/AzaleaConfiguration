@@ -21,9 +21,10 @@ jobs:
         with:
           java-version: 17
           distribution: temurin
-          server-id: azalea-repo
-          server-username: test
-          server-password: test
 
       - name: deploy
         run:  mvn clean test deploy -ntp
+        with:
+          server-id: azalea-repo
+          server-username: test
+          server-password: test
