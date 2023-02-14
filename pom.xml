@@ -24,6 +24,10 @@
             <id>papermc</id>
             <url>https://repo.papermc.io/repository/maven-public/</url>
         </repository>
+        <repository>
+            <id>azalea-repo</id>
+            <url>https://azalealibrary.net/releases</url>
+        </repository>
     </repositories>
 
     <distributionManagement>

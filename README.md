@@ -22,7 +22,7 @@ In **pom.xml**:
     <repositories>
         <!-- other repositories -->
         <repository>
-            <id>azalea-repo-releases</id>
+            <id>azalea-repo</id>
             <name>Azalea Repository</name>
             <url>https://azalealibrary.net/releases</url>
         </repository>
