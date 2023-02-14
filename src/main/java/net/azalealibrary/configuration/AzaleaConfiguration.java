@@ -22,10 +22,4 @@ public final class AzaleaConfiguration extends JavaPlugin {
     public void onLoad() {
         AzaleaCommandApi.register(this, ConfigureCommand.class);
     }
-
-    @Override
-    public void onEnable() { }
-
-    @Override
-    public void onDisable() { }
 }
