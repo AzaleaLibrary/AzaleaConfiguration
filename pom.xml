@@ -53,6 +53,12 @@
             <version>2.138.0</version>
             <scope>test</scope>
         </dependency>
+        <!-- azalea command -->
+        <dependency>
+            <groupId>net.azalealibrary</groupId>
+            <artifactId>command</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
 
     <build>
