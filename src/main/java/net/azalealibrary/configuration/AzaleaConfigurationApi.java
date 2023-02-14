@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public final class ConfigurationApi {
+public final class AzaleaConfigurationApi {
 
     private static final List<Configuration> CONFIGURATIONS = new ArrayList<>();
 
