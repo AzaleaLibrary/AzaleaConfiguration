@@ -1,7 +1,7 @@
 package net.azalealibrary.configuration.property;
 
+import net.azalealibrary.command.Arguments;
 import net.azalealibrary.configuration.AzaleaException;
-import net.azalealibrary.configuration.command.Arguments;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;

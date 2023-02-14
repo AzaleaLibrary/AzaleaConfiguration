@@ -1,7 +1,6 @@
 package net.azalealibrary.configuration;
 
-import net.azalealibrary.configuration.command.CommandNode;
-import net.azalealibrary.configuration.command.ConfigureCommand;
+import net.azalealibrary.command.AzaleaCommandApi;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.java.JavaPluginLoader;
@@ -21,7 +20,7 @@ public final class AzaleaConfiguration extends JavaPlugin {
 
     @Override
     public void onLoad() {
-        CommandNode.register(this, ConfigureCommand.class);
+        AzaleaCommandApi.register(this, ConfigureCommand.class);
     }
 
     @Override

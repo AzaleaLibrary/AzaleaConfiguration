@@ -1,6 +1,6 @@
 package net.azalealibrary.configuration.property;
 
-import net.azalealibrary.configuration.command.Arguments;
+import net.azalealibrary.command.Arguments;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 

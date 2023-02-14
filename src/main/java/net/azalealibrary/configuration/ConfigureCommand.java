@@ -1,8 +1,7 @@
-package net.azalealibrary.configuration.command;
+package net.azalealibrary.configuration;
 
-import net.azalealibrary.configuration.Configurable;
-import net.azalealibrary.configuration.ConfigurationApi;
-import net.azalealibrary.configuration.TextUtil;
+import net.azalealibrary.command.Arguments;
+import net.azalealibrary.command.CommandNode;
 import net.azalealibrary.configuration.property.ConfigurableProperty;
 import org.bukkit.command.CommandSender;
 
