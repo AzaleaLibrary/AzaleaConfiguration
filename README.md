@@ -77,7 +77,7 @@ class MyConfiguration implements Configurable {
 
 Now that we have defined some properties (`aNumber`, `aString` & `someVectors`), we want to load their values from a yml file. 
 
-We need to get a `FileConfiguration` object which represents a set of configuration data from a yml file, this is done via the `ConfigurationApi#load` method.
+We need to get a `FileConfiguration` object which represents a set of configuration data from a yml file, this is done via the `AzaleaConfigurationApi#load` method.
 
 From a `FileConfiguration` object, we can then call the `FileConfiguration#load` method.
 
@@ -93,15 +93,15 @@ class MyPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         // get the associated `FileConfiguration` object of `MY_CONFIGURATION` ("<plugin_data_folder>/my_configuration.yml")
-        FileConfiguration fileConfiguration = ConfigurationApi.load(this, myConfiguration.getName());
+        FileConfiguration fileConfiguration = AzaleaConfigurationApi.load(this, myConfiguration.getName());
         fileConfiguration.load(myConfiguration);       // load properties from file
-        ConfigurationApi.register(myConfiguration);    // register config to command
+        AzaleaConfigurationApi.register(myConfiguration);    // register config to command
     }
 
     @Override
     public void onDisable() {
         // save `myConfiguration` as a yaml file ("<plugin_data_folder>/my_configurations.yml")
-        FileConfiguration fileConfiguration = ConfigurationApi.load(this, myConfiguration.getName());
+        FileConfiguration fileConfiguration = AzaleaConfigurationApi.load(this, myConfiguration.getName());
         fileConfiguration.save(myConfiguration);       // save properties to file
     }
 }
@@ -113,7 +113,7 @@ This can be done during the disabling cycle of the plugin, as shown in the examp
 
 #### 2. Dynamic configurations
 
-Suppose we have a list of `MyConfiguration` configurations we want to load from the `<plugin_data_folder>/my_configurations` directory with `ConfigurationApi#loadAll`.
+Suppose we have a list of `MyConfiguration` configurations we want to load from the `<plugin_data_folder>/my_configurations` directory with `AzaleaConfigurationApi#loadAll`.
 
 ```java
 class MyPlugin extends JavaPlugin {
@@ -123,10 +123,10 @@ class MyPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         // load all yaml files in "<plugin_data_folder>/my_configurations"
-        for (FileConfiguration fileConfiguration : ConfigurationApi.loadAll(this, "my_configurations")) {
+        for (FileConfiguration fileConfiguration : AzaleaConfigurationApi.loadAll(this, "my_configurations")) {
             MyConfiguration configuration = new MyConfiguration();  // create a new `MyConfiguration` object for every config
             fileConfiguration.load(configuration);                  // load properties from file
-            ConfigurationApi.register(configuration);               // register config to command
+            AzaleaConfigurationApi.register(configuration);               // register config to command
             configurations.add(configuration);
         }
     }
@@ -135,7 +135,7 @@ class MyPlugin extends JavaPlugin {
     public void onDisable() {
         // save all configs as yaml files in "<plugin_data_folder>/my_configurations"
         for (MyConfiguration configuration : configurations) {
-            FileConfiguration fileConfiguration = ConfigurationApi.load(this, "my_configurations", configuration.getName());
+            FileConfiguration fileConfiguration = AzaleaConfigurationApi.load(this, "my_configurations", configuration.getName());
             fileConfiguration.save(configuration);                  // save properties to file
         }
     }
