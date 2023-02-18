@@ -43,7 +43,7 @@ public class FileConfiguration {
 
             for (ConfigurableProperty<?, ?> property : configurable.getProperties()) {
                 property.serialize(configuration);
-                List<String> comments = TextUtil.printable(property, 80).stream().map(ChatColor::stripColor).toList();
+                List<String> comments = TextUtil.getYamlInfo(property, 80).stream().toList();
                 configuration.setComments(property.getName(), comments);
             }
             configuration.save(file);

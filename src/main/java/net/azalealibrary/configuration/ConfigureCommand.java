@@ -56,7 +56,7 @@ public class ConfigureCommand extends CommandNode {
                 sender.sendMessage("Property " + TextUtil.getName(property) + " has been reset.");
             }
             case INFO -> {
-                sender.sendMessage(TextUtil.printable(property, 60).toArray(String[]::new));
+                sender.sendMessage(TextUtil.getCommandInfo(property, 60).toArray(String[]::new));
             }
         }
     }
