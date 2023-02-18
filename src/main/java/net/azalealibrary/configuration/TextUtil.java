@@ -17,7 +17,7 @@ public final class TextUtil {
         return ChatColor.LIGHT_PURPLE + property.getName() + ChatColor.RESET;
     }
 
-    public static List<String> printable(ConfigurableProperty<?, ?> property, int width) {
+    public static List<String> getCommandInfo(ConfigurableProperty<?, ?> property, int width) {
         List<String> lines = new ArrayList<>();
         String type = property instanceof ListProperty<?> ? "List of " + property.getType().getExpected() : property.getType().getExpected();
         lines.add("Property: " + getName(property) + " (" + type + ")");
@@ -25,6 +25,18 @@ public final class TextUtil {
         lines.add("> Default: " + ChatColor.AQUA + property.getDefault().toString());
         lines.add("> Value: " + ChatColor.YELLOW + property);
         lines.addAll(split(property.getDescription(), width, "  ").stream().map(line -> ChatColor.GRAY + line).toList());
+        return lines;
+    }
+
+    public static List<String> getYamlInfo(ConfigurableProperty<?, ?> property, int width) {
+        List<String> lines = new ArrayList<>();
+        String type = property instanceof ListProperty<?> ? "List of " + property.getType().getExpected() : property.getType().getExpected();
+        lines.add("> Property: " + property.getName() + " (" + type + ")");
+        lines.add("> Required: " + (property.isRequired() ? "true" : "false"));
+        lines.add("> Default: " + property.getDefault().toString());
+        List<String> description = split(property.getDescription(), width, "               ");
+        description.set(0, "> Description: " + description.get(0).trim());
+        lines.addAll(description);
         return lines;
     }
 
