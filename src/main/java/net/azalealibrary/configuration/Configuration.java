@@ -1,5 +1,6 @@
 package net.azalealibrary.configuration;
 
+import net.azalealibrary.command.AzaleaException;
 import net.azalealibrary.configuration.property.ConfigurableProperty;
 
 import java.util.ArrayList;

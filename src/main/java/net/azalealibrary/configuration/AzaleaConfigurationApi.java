@@ -1,5 +1,6 @@
 package net.azalealibrary.configuration;
 
+import net.azalealibrary.command.AzaleaException;
 import org.bukkit.plugin.Plugin;
 
 import javax.annotation.Nullable;
