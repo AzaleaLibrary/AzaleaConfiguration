@@ -43,11 +43,11 @@ public final class AzaleaConfigurationApi {
         return configurable;
     }
 
-    public static FileConfiguration load(Plugin plugin, String name) {
-        return load(plugin, "/", name);
+    public static FileConfiguration getFileConfiguration(Plugin plugin, String name) {
+        return getFileConfiguration(plugin, "/", name);
     }
 
-    public static FileConfiguration load(Plugin plugin, String path, String name) {
+    public static FileConfiguration getFileConfiguration(Plugin plugin, String path, String name) {
         File directory = new File(plugin.getDataFolder(), path);
 
         if (!directory.exists() & !directory.mkdir() || !directory.isDirectory()) {
@@ -66,11 +66,11 @@ public final class AzaleaConfigurationApi {
         return new FileConfiguration(plugin, file);
     }
 
-    public static List<FileConfiguration> loadAll(Plugin plugin) {
-        return loadAll(plugin, "/");
+    public static List<FileConfiguration> getAllFileConfigurations(Plugin plugin) {
+        return getAllFileConfigurations(plugin, "/");
     }
 
-    public static List<FileConfiguration> loadAll(Plugin plugin, String path) {
+    public static List<FileConfiguration> getAllFileConfigurations(Plugin plugin, String path) {
         File directory = new File(plugin.getDataFolder(), path);
 
         if (!directory.exists() & !directory.mkdir() || !directory.isDirectory()) {
