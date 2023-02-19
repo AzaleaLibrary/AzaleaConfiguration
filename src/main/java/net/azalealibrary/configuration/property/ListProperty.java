@@ -65,11 +65,16 @@ public final class ListProperty<T> extends ConfigurableProperty<T, List<T>> {
         Optional.ofNullable(get()).ifPresent(value -> configuration.set(getName(), value.stream().map(getType()::serialize).toList()));
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void deserialize(@Nonnull ConfigurationSection configuration) {
-        List<T> list = new ArrayList<>(get());
-        Optional.ofNullable(configuration.getList(getName())).ifPresent(objects -> objects.forEach(object -> list.add(getType().deserialize(object))));
-        set(list);
+        List<Object> objects = (List<Object>) configuration.getList(getName());
+
+        if (objects != null) {
+            set(objects.stream().map(object -> getType().deserialize(object)).collect(Collectors.toList()));
+        } else {
+            set(new ArrayList<>(getDefault()));
+        }
     }
 
     @Override
