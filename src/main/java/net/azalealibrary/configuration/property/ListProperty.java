@@ -6,6 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -66,7 +67,9 @@ public final class ListProperty<T> extends ConfigurableProperty<T, List<T>> {
 
     @Override
     public void deserialize(@Nonnull ConfigurationSection configuration) {
-        Optional.ofNullable(configuration.getList(getName())).ifPresent(objects -> objects.forEach(object -> get().add(getType().deserialize(object))));
+        List<T> list = new ArrayList<>(get());
+        Optional.ofNullable(configuration.getList(getName())).ifPresent(objects -> objects.forEach(object -> list.add(getType().deserialize(object))));
+        set(list);
     }
 
     @Override
