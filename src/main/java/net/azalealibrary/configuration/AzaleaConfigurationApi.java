@@ -48,9 +48,13 @@ public final class AzaleaConfigurationApi {
         register(configurable);
     }
 
+    public static void unload(Plugin plugin, Configurable configurable) {
+        save(plugin, configurable);
+        unregister(configurable);
+    }
+
     public static void save(Plugin plugin, Configurable configurable) {
         getFileConfiguration(plugin, configurable.getName()).save(configurable);
-//        unregister(configurable);
     }
 
     public static FileConfiguration getFileConfiguration(Plugin plugin, String name) {
