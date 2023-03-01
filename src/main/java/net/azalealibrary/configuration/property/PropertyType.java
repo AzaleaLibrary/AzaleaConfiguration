@@ -72,7 +72,9 @@ public class PropertyType<T> {
                 double x = location.getBlockX() + .5;
                 double y = location.getBlockY() + .5;
                 double z = location.getBlockZ() + .5;
-                return List.of(x + " " + y + " " + z);
+                float yaw = location.getYaw();
+                float pitch = location.getPitch();
+                return List.of(x + " " + y + " " + z + " " + yaw + " " + pitch);
             }
             return super.complete(sender, arguments, currentValue);
         }
@@ -83,7 +85,9 @@ public class PropertyType<T> {
                 double x = arguments.find(0, "x", Double::parseDouble);
                 double y = arguments.find(1, "y", Double::parseDouble);
                 double z = arguments.find(2, "z", Double::parseDouble);
-                return new Location(player.getWorld(), x, y, z);
+                float yaw = arguments.find(3, "yaw", Float::parseFloat);
+                float pitch = arguments.find(4, "pitch", Float::parseFloat);
+                return new Location(player.getWorld(), x, y, z, yaw, pitch);
             }
             return super.parse(sender, arguments, currentValue);
         }
