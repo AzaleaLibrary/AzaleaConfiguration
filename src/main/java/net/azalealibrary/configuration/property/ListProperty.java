@@ -83,6 +83,14 @@ public final class ListProperty<T> extends ConfigurableProperty<T, List<T>> {
     }
 
     @Override
+    public boolean equals(Object object) {
+        if (object instanceof ListProperty<?> property) {
+            return property.name.equals(name) && property.type.getType().equals(type.getType());
+        }
+        return super.equals(object);
+    }
+
+    @Override
     public String toString() {
         return isSet() ? get().stream().map(getType()::print).collect(Collectors.joining(", ")) : "<empty>";
     }

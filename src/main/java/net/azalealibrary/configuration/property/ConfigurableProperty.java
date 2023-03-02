@@ -13,10 +13,9 @@ import java.util.function.Supplier;
 
 public abstract class ConfigurableProperty<T, P> {
 
-    private final PropertyType<T> type;
-    private final List<AssignmentPolicy<T>> policies;
-
-    private final String name;
+    protected final PropertyType<T> type;
+    protected final List<AssignmentPolicy<T>> policies;
+    protected final String name;
     private final String description;
     private final Supplier<P> defaultValue;
     private @Nullable P value;
@@ -87,12 +86,4 @@ public abstract class ConfigurableProperty<T, P> {
     public abstract void serialize(@Nonnull ConfigurationSection configuration);
 
     public abstract void deserialize(@Nonnull ConfigurationSection configuration);
-
-    @Override
-    public boolean equals(Object object) {
-        if (object instanceof ConfigurableProperty<?, ?> property) {
-            return property.name.equals(name) && property.type.getType().equals(type.getType());
-        }
-        return super.equals(object);
-    }
 }

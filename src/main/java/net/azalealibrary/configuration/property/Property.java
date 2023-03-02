@@ -36,6 +36,14 @@ public final class Property<T> extends ConfigurableProperty<T, T> {
     }
 
     @Override
+    public boolean equals(Object object) {
+        if (object instanceof Property<?> property) {
+            return property.name.equals(name) && property.type.getType().equals(type.getType());
+        }
+        return super.equals(object);
+    }
+
+    @Override
     public String toString() {
         return isSet() ? getType().print(get()) : "<empty>";
     }

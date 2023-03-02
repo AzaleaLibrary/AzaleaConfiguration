@@ -187,4 +187,17 @@ public class PropertyType<T> {
     public String print(T object) {
         return object.toString();
     }
+
+    @Override
+    public boolean equals(Object object) {
+        if (object instanceof PropertyType<?> propertyType) {
+            return propertyType.type.equals(type) && propertyType.expected.equals(expected);
+        }
+        return super.equals(object);
+    }
+
+    @Override
+    public String toString() {
+        return "PropertyType{" + expected + "}";
+    }
 }
