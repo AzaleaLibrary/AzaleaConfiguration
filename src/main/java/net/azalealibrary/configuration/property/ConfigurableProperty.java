@@ -2,7 +2,6 @@ package net.azalealibrary.configuration.property;
 
 import net.azalealibrary.command.Arguments;
 import net.azalealibrary.command.AzaleaException;
-import org.apache.commons.lang.StringUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -75,14 +74,7 @@ public abstract class ConfigurableProperty<T, P> {
     }
 
     public void onExecute(CommandSender sender, Arguments arguments) {
-        try {
-            set(sender, arguments);
-        } catch (Exception exception) {
-            throw new AzaleaException(
-                    "Error updating property '" + name + "' with arguments: " + arguments + ".",
-                    StringUtils.capitalize(type.getExpected()) + " expected."
-            );
-        }
+        set(sender, arguments);
     }
 
     @SuppressWarnings("unchecked")
