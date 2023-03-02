@@ -19,16 +19,14 @@ public abstract class ConfigurableProperty<T, P> {
 
     private final String name;
     private final String description;
-    private final boolean required;
     private final Supplier<P> defaultValue;
     private @Nullable P value;
 
     @SafeVarargs
-    protected ConfigurableProperty(PropertyType<T> type, Supplier<P> defaultValue, String name, String description, boolean required, AssignmentPolicy<T>... policies) {
+    protected ConfigurableProperty(PropertyType<T> type, Supplier<P> defaultValue, String name, String description, AssignmentPolicy<T>... policies) {
         this.type = type;
         this.name = name;
         this.description = description;
-        this.required = required;
         this.defaultValue = defaultValue;
         this.policies = List.of(policies);
     }
@@ -43,10 +41,6 @@ public abstract class ConfigurableProperty<T, P> {
 
     public String getDescription() {
         return description;
-    }
-
-    public boolean isRequired() {
-        return required;
     }
 
     public P getDefault() {

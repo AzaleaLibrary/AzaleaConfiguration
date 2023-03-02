@@ -21,7 +21,6 @@ public final class TextUtil {
         List<String> lines = new ArrayList<>();
         String type = property instanceof ListProperty<?> ? "List of " + property.getType().getExpected() : property.getType().getExpected();
         lines.add("Property: " + getName(property) + " (" + type + ")");
-        lines.add("> Required: " + (property.isRequired() ? ChatColor.GREEN + "true" : ChatColor.RED + "false"));
         lines.add("> Default: " + ChatColor.AQUA + property.getDefault().toString());
         lines.add("> Value: " + ChatColor.YELLOW + property);
         lines.addAll(split(property.getDescription(), width, "  ").stream().map(line -> ChatColor.GRAY + line).toList());
@@ -32,7 +31,6 @@ public final class TextUtil {
         List<String> lines = new ArrayList<>();
         String type = property instanceof ListProperty<?> ? "List of " + property.getType().getExpected() : property.getType().getExpected();
         lines.add("> Property: " + property.getName() + " (" + type + ")");
-        lines.add("> Required: " + (property.isRequired() ? "true" : "false"));
         lines.add("> Default: " + property.getDefault().toString());
         List<String> description = split(property.getDescription(), width, "               ");
         description.set(0, "> Description: " + description.get(0).trim());

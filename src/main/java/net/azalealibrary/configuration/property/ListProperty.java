@@ -25,12 +25,7 @@ public final class ListProperty<T> extends ConfigurableProperty<T, List<T>> {
 
     @SafeVarargs
     public ListProperty(PropertyType<T> type, Supplier<List<T>> defaultValue, String name, String description, AssignmentPolicy<T>... policies) {
-        this(type, defaultValue, name, description, false, policies);
-    }
-
-    @SafeVarargs
-    public ListProperty(PropertyType<T> type, Supplier<List<T>> defaultValue, String name, String description, boolean required, AssignmentPolicy<T>... policies) {
-        super(type, defaultValue, name, description, required, policies);
+        super(type, defaultValue, name, description, policies);
         set(defaultValue.get());
     }
 

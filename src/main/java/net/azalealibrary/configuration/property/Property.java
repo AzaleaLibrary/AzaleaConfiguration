@@ -12,17 +12,12 @@ public final class Property<T> extends ConfigurableProperty<T, T> {
 
     @SafeVarargs
     public Property(PropertyType<T> type, Supplier<T> defaultValue, String name, AssignmentPolicy<T>... policies) {
-        this(type, defaultValue, name, name, false, policies);
+        this(type, defaultValue, name, name, policies);
     }
 
     @SafeVarargs
     public Property(PropertyType<T> type, Supplier<T> defaultValue, String name, String description, AssignmentPolicy<T>... policies) {
-        this(type, defaultValue, name, description, false, policies);
-    }
-
-    @SafeVarargs
-    public Property(PropertyType<T> type, Supplier<T> defaultValue, String name, String description, boolean required, AssignmentPolicy<T>... policies) {
-        super(type, defaultValue, name, description, required, policies);
+        super(type, defaultValue, name, description, policies);
     }
 
     @Override
