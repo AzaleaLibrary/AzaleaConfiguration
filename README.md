@@ -20,22 +20,22 @@ In **pom.xml**:
 
 ```xml
     <repositories>
-        <!-- other repositories -->
-        <repository>
-            <id>azalea-repo</id>
-            <name>Azalea Repository</name>
-            <url>https://azalealibrary.net/releases</url>
-        </repository>
-    </repositories>
-    
-    <dependencies>
-        <!-- other dependencies -->
-        <dependency>
-            <groupId>net.azalealibrary</groupId>
-            <artifactId>configuration</artifactId>
-            <version>1.0</version>
-        </dependency>
-    </dependencies>
+    <!-- other repositories -->
+    <repository>
+        <id>azalea-repo</id>
+        <name>Azalea Repository</name>
+        <url>https://azalealibrary.net/releases</url>
+    </repository>
+</repositories>
+
+<dependencies>
+<!-- other dependencies -->
+<dependency>
+    <groupId>net.azalealibrary</groupId>
+    <artifactId>configuration</artifactId>
+    <version>1.0</version>
+</dependency>
+</dependencies>
 ```
 
 ### Usage
@@ -46,7 +46,7 @@ Assume we want to a place to store some global configuration for a plugin. The f
 
 ```java
 class MyConfiguration implements Configurable {
-    
+
     private final Property<Integer> aNumber = new Property<>(PropertyType.INTEGER, () -> 1, "a_number", "some number description", true);
     private final Property<String> aString = new Property<>(PropertyType.STRING, () -> "text", "a_string", "some string description", false);
     private final ListProperty<Vector> someVectors = new ListProperty<>(PropertyType.VECTOR, ArrayList::new, "some_vectors", "some vector list description", false);
@@ -75,7 +75,7 @@ class MyConfiguration implements Configurable {
 }
 ```
 
-Now that we have defined some properties (`aNumber`, `aString` & `someVectors`), we want to load their values from a yml file. 
+Now that we have defined some properties (`aNumber`, `aString` & `someVectors`), we want to load their values from a yml file.
 
 We need to get a `FileConfiguration` object which represents a set of configuration data from a yml file, this is done via the `AzaleaConfigurationApi#load` method.
 
@@ -119,14 +119,14 @@ Suppose we have a list of `MyConfiguration` configurations we want to load from 
 class MyPlugin extends JavaPlugin {
 
     private final List<MyConfiguration> configurations = new ArrayList<>();
-    
+
     @Override
     public void onEnable() {
         // load all yaml files in "<plugin_data_folder>/my_configurations"
-        for (FileConfiguration fileConfiguration : AzaleaConfigurationApi.loadAll(this, "my_configurations")) {
+        for (FileConfiguration fileConfiguration : AzaleaConfigurationApi.getAllFileConfigurations(this, "my_configurations")) {
             MyConfiguration configuration = new MyConfiguration();  // create a new `MyConfiguration` object for every config
             fileConfiguration.load(configuration);                  // load properties from file
-            AzaleaConfigurationApi.register(configuration);               // register config to command
+            AzaleaConfigurationApi.register(configuration);         // register config to command
             configurations.add(configuration);
         }
     }
@@ -135,9 +135,13 @@ class MyPlugin extends JavaPlugin {
     public void onDisable() {
         // save all configs as yaml files in "<plugin_data_folder>/my_configurations"
         for (MyConfiguration configuration : configurations) {
-            FileConfiguration fileConfiguration = AzaleaConfigurationApi.load(this, "my_configurations", configuration.getName());
+            FileConfiguration fileConfiguration = AzaleaConfigurationApi.getAllFileConfiguration(this, "my_configurations", configuration.getName());
             fileConfiguration.save(configuration);                  // save properties to file
         }
     }
 }
 ```
+
+#### 3. Property types
+
+// TODO
