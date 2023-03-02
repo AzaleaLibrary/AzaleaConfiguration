@@ -20,22 +20,22 @@ In **pom.xml**:
 
 ```xml
     <repositories>
-    <!-- other repositories -->
-    <repository>
-        <id>azalea-repo</id>
-        <name>Azalea Repository</name>
-        <url>https://azalealibrary.net/releases</url>
-    </repository>
-</repositories>
-
-<dependencies>
-<!-- other dependencies -->
-<dependency>
-    <groupId>net.azalealibrary</groupId>
-    <artifactId>configuration</artifactId>
-    <version>1.0</version>
-</dependency>
-</dependencies>
+        <!-- other repositories -->
+        <repository>
+            <id>azalea-repo</id>
+            <name>Azalea Repository</name>
+            <url>https://azalealibrary.net/releases</url>
+        </repository>
+    </repositories>
+    
+    <dependencies>
+        <!-- other dependencies -->
+        <dependency>
+            <groupId>net.azalealibrary</groupId>
+            <artifactId>configuration</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
 ```
 
 ### Usage
