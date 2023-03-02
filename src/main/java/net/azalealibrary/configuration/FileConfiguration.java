@@ -20,6 +20,10 @@ public class FileConfiguration {
         this.configuration = YamlConfiguration.loadConfiguration(file);
     }
 
+    public File getFile() {
+        return file;
+    }
+
     public YamlConfiguration getYamlConfiguration() {
         return configuration;
     }
