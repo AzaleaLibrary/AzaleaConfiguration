@@ -12,6 +12,7 @@ import java.io.File;
 @SuppressWarnings("unused")
 @Plugin(name = "AzaleaConfiguration", version = "1.0")
 @Dependency("AzaleaCommand")
+@ApiVersion(ApiVersion.Target.v1_19)
 public final class AzaleaConfiguration extends JavaPlugin {
 
     public AzaleaConfiguration() { }
