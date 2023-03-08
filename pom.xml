@@ -13,7 +13,7 @@
 
     <groupId>net.azalealibrary</groupId>
     <artifactId>configuration</artifactId>
-    <version>1.0.4</version>
+    <version>1.0.5</version>
 
     <repositories>
         <repository>
@@ -61,7 +61,7 @@
         <dependency>
             <groupId>net.azalealibrary</groupId>
             <artifactId>command</artifactId>
-            <version>1.0.0</version>
+            <version>1.0.2</version>
         </dependency>
     </dependencies>
 
