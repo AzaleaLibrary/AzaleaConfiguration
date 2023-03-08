@@ -20,6 +20,10 @@ public class FileConfiguration {
         this.configuration = YamlConfiguration.loadConfiguration(file);
     }
 
+    public String getName() {
+        return file.getName().substring(0, file.getName().indexOf('.'));
+    }
+
     public File getFile() {
         return file;
     }

@@ -75,7 +75,7 @@ public final class AzaleaConfigurationApi {
                 throw new AzaleaException(directory.getName() + " is not a directory.");
             }
         } catch (Exception exception) {
-            throw new AzaleaException("Could not create configuration file '" + name + "'.", exception.getMessage());
+            throw new AzaleaException("Could not create configuration file '" + name + "'.", exception);
         }
         return new FileConfiguration(plugin, file);
     }
