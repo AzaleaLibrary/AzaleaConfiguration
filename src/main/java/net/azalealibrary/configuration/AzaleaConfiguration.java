@@ -28,5 +28,4 @@ public final class AzaleaConfiguration extends JavaPlugin {
     }
 }
 
-// TODO - callback when property is updated?
 // TODO - regex to set/update many props with shared name shop.item.*

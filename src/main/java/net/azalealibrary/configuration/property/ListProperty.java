@@ -9,6 +9,7 @@ import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -19,13 +20,13 @@ public final class ListProperty<T> extends ConfigurableProperty<T, List<T>> {
     private static final String REPLACE = "replace";
 
     @SafeVarargs
-    public ListProperty(PropertyType<T> type, Supplier<List<T>> defaultValue, String name, AssignmentPolicy<T>... policies) {
-        this(type, defaultValue, name, name, policies);
+    public ListProperty(PropertyType<T> type, Supplier<List<T>> defaultValue, String name, Consumer<List<T>> callback, AssignmentPolicy<T>... policies) {
+        this(type, defaultValue, name, name, callback, policies);
     }
 
     @SafeVarargs
-    public ListProperty(PropertyType<T> type, Supplier<List<T>> defaultValue, String name, String description, AssignmentPolicy<T>... policies) {
-        super(type, defaultValue, name, description, policies);
+    public ListProperty(PropertyType<T> type, Supplier<List<T>> defaultValue, String name, String description, Consumer<List<T>> callback, AssignmentPolicy<T>... policies) {
+        super(type, defaultValue, name, description, callback, policies);
         set(defaultValue.get());
     }
 
@@ -35,6 +36,7 @@ public final class ListProperty<T> extends ConfigurableProperty<T, List<T>> {
 
         if (action.equals(ADD)) {
             get().add(verify(getType().parse(sender, arguments.subArguments(1), null)));
+            callback.accept(get());
         } else {
             int index = arguments.find(1, "position", input -> Integer.parseInt(input.replace("@", "")));
 
@@ -44,8 +46,10 @@ public final class ListProperty<T> extends ConfigurableProperty<T, List<T>> {
 
             if (action.equals(REPLACE)) {
                 get().set(index, verify(getType().parse(sender, arguments.subArguments(2), null)));
+                callback.accept(get());
             } else {
                 get().remove(index);
+                callback.accept(get());
             }
         }
     }

@@ -9,6 +9,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public abstract class ConfigurableProperty<T, P> {
@@ -16,16 +17,18 @@ public abstract class ConfigurableProperty<T, P> {
     protected final PropertyType<T> type;
     protected final List<AssignmentPolicy<T>> policies;
     protected final String name;
+    protected final Consumer<P> callback;
     private final String description;
     private final Supplier<P> defaultValue;
     private @Nullable P value;
 
     @SafeVarargs
-    protected ConfigurableProperty(PropertyType<T> type, Supplier<P> defaultValue, String name, String description, AssignmentPolicy<T>... policies) {
+    protected ConfigurableProperty(PropertyType<T> type, Supplier<P> defaultValue, String name, String description, Consumer<P> callback, AssignmentPolicy<T>... policies) {
         this.type = type;
         this.name = name;
         this.description = description;
         this.defaultValue = defaultValue;
+        this.callback = callback;
         this.policies = List.of(policies);
     }
 
