@@ -20,6 +20,11 @@ public final class ListProperty<T> extends ConfigurableProperty<T, List<T>> {
     private static final String REPLACE = "replace";
 
     @SafeVarargs
+    public ListProperty(PropertyType<T> type, Supplier<List<T>> defaultValue, String name, AssignmentPolicy<T>... policies) {
+        this(type, defaultValue, name, v -> {}, policies);
+    }
+
+    @SafeVarargs
     public ListProperty(PropertyType<T> type, Supplier<List<T>> defaultValue, String name, Consumer<List<T>> callback, AssignmentPolicy<T>... policies) {
         this(type, defaultValue, name, name, callback, policies);
     }

@@ -12,6 +12,11 @@ import java.util.function.Supplier;
 public final class Property<T> extends ConfigurableProperty<T, T> {
 
     @SafeVarargs
+    public Property(PropertyType<T> type, Supplier<T> defaultValue, String name, AssignmentPolicy<T>... policies) {
+        this(type, defaultValue, name, name, v -> {}, policies);
+    }
+
+    @SafeVarargs
     public Property(PropertyType<T> type, Supplier<T> defaultValue, String name, Consumer<T> callback, AssignmentPolicy<T>... policies) {
         this(type, defaultValue, name, name, callback, policies);
     }
