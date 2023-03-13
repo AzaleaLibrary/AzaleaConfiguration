@@ -22,14 +22,13 @@ public abstract class ConfigurableProperty<T, P> {
     private final Supplier<P> defaultValue;
     private @Nullable P value;
 
-    @SafeVarargs
-    protected ConfigurableProperty(PropertyType<T> type, Supplier<P> defaultValue, String name, String description, Consumer<P> callback, AssignmentPolicy<T>... policies) {
+    protected ConfigurableProperty(PropertyType<T> type, Supplier<P> defaultValue, String name, String description, Consumer<P> callback, List<AssignmentPolicy<T>> policies) {
         this.type = type;
         this.name = name;
         this.description = description;
         this.defaultValue = defaultValue;
         this.callback = callback;
-        this.policies = List.of(policies);
+        this.policies = policies;
     }
 
     public PropertyType<T> getType() {
