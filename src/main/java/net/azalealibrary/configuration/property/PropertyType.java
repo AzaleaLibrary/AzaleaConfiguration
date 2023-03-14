@@ -20,13 +20,13 @@ public class PropertyType<T> {
     public static final PropertyType<Integer> INTEGER = new PropertyType<>(Integer.class) {
         @Override
         public Integer parse(CommandSender sender, Arguments arguments, @Nullable Integer currentValue) {
-            return Integer.parseInt(arguments.getLast());
+            return Integer.parseInt(arguments.get(0));
         }
     };
     public static final PropertyType<Double> DOUBLE = new PropertyType<>(Double.class, "decimal") {
         @Override
         public Double parse(CommandSender sender, Arguments arguments, @Nullable Double currentValue) {
-            return Double.parseDouble(arguments.getLast());
+            return Double.parseDouble(arguments.get(0));
         }
     };
     public static final PropertyType<Boolean> BOOLEAN = new PropertyType<>(Boolean.class) {
@@ -35,7 +35,7 @@ public class PropertyType<T> {
             if (!arguments.is(0, "true") && !arguments.is(0, "false")) {
                 throw new AzaleaException(); // ensure explicit "true" or "false" text has been provided
             }
-            return Boolean.parseBoolean(arguments.getLast());
+            return Boolean.parseBoolean(arguments.get(0));
         }
 
         @Override
@@ -129,7 +129,7 @@ public class PropertyType<T> {
 
         @Override
         public World parse(CommandSender sender, Arguments arguments, @Nullable World currentValue) {
-            return Bukkit.getWorld(arguments.getLast());
+            return Bukkit.getWorld(arguments.get(0));
         }
 
         @Override
@@ -173,7 +173,7 @@ public class PropertyType<T> {
     }
 
     public T parse(CommandSender sender, Arguments arguments, @Nullable T currentValue) {
-        return (T) arguments.getLast();
+        return (T) arguments.get(0);
     }
 
     public Object serialize(T object) {
@@ -186,6 +186,16 @@ public class PropertyType<T> {
 
     public String print(T object) {
         return object.toString();
+    }
+
+    // TODO - review
+    public boolean test(CommandSender sender, Arguments arguments) {
+        try {
+            parse(sender, arguments, null);
+            return true;
+        } catch (Exception exception) {
+            return false;
+        }
     }
 
     @Override
