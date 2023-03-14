@@ -19,7 +19,7 @@ public final class ListProperty<T> extends ConfigurableProperty<T, List<T>> {
     private static final String REMOVE = "remove";
     private static final String REPLACE = "replace";
 
-    private ListProperty(PropertyType<T> type, Supplier<List<T>> defaultValue, String name, String description, Consumer<List<T>> callback, List<AssignmentPolicy<T>> policies) {
+    private ListProperty(PropertyType<T> type, Supplier<List<T>> defaultValue, String name, List<String> description, Consumer<List<T>> callback, List<AssignmentPolicy<T>> policies) {
         super(type, defaultValue, name, description, callback, policies);
     }
 
@@ -102,14 +102,13 @@ public final class ListProperty<T> extends ConfigurableProperty<T, List<T>> {
         private final String name;
         private final Supplier<List<T>> defaultValue;
         private final List<AssignmentPolicy<T>> policies = new ArrayList<>();
-        private String description;
+        private final List<String> description = new ArrayList<>();
         private Consumer<List<T>> callback;
 
         private Builder(PropertyType<T> type, String name, Supplier<List<T>> defaultValue) {
             this.type = type;
             this.name = name;
             this.defaultValue = defaultValue;
-            this.description = name;
             this.callback = v -> {};
         }
 
@@ -118,8 +117,8 @@ public final class ListProperty<T> extends ConfigurableProperty<T, List<T>> {
             return this;
         }
 
-        public Builder<T> addDescription(String description) {
-            this.description = description;
+        public Builder<T> description(String line) {
+            this.description.add(line);
             return this;
         }
 

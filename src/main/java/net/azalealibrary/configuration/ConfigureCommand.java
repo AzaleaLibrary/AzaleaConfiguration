@@ -3,7 +3,9 @@ package net.azalealibrary.configuration;
 import net.azalealibrary.command.Arguments;
 import net.azalealibrary.command.AzaleaException;
 import net.azalealibrary.command.CommandNode;
+import net.azalealibrary.command.TextUtil;
 import net.azalealibrary.configuration.property.ConfigurableProperty;
+import net.azalealibrary.configuration.property.ListProperty;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
@@ -59,7 +61,7 @@ public class ConfigureCommand extends CommandNode {
 
                 for (ConfigurableProperty<?, ?> property : properties) {
                     property.onExecute(sender, sub);
-                    sender.sendMessage("  " + TextUtil.getName(property));
+                    sender.sendMessage("  " + ChatColor.LIGHT_PURPLE + property.getName() + ChatColor.RESET);
                 }
             }
             case RESET -> {
@@ -67,11 +69,18 @@ public class ConfigureCommand extends CommandNode {
 
                 for (ConfigurableProperty<?, ?> property : properties) {
                     property.reset();
-                    sender.sendMessage("  " + TextUtil.getName(property));
+                    sender.sendMessage("  " + ChatColor.LIGHT_PURPLE + property.getName() + ChatColor.RESET);
                 }
             }
             case INFO -> {
-                sender.sendMessage(TextUtil.getCommandInfo(properties.get(0), 60).toArray(String[]::new));
+                ConfigurableProperty<?, ?> property = properties.get(0);
+                List<String> info = new ArrayList<>();
+                String type = property.getType().getExpected() + (property instanceof ListProperty<?> ? " (list)" : "");
+                info.add("Property: " + ChatColor.LIGHT_PURPLE + property.getName() + ChatColor.RESET + " " + type);
+                info.add("Default: " + ChatColor.AQUA + property.getDefault());
+                info.add("Value: " + ChatColor.YELLOW + property);
+                property.getDescription().forEach(l -> info.addAll(TextUtil.split(l, 55).stream().map(i -> "  " + i).toList()));
+                sender.sendMessage(info.toArray(String[]::new));
             }
         }
     }
