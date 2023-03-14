@@ -5,6 +5,7 @@ import net.azalealibrary.command.AzaleaException;
 import net.azalealibrary.command.CommandNode;
 import net.azalealibrary.command.TextUtil;
 import net.azalealibrary.configuration.property.ConfigurableProperty;
+import net.azalealibrary.configuration.property.ListProperty;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
@@ -13,6 +14,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ConfigureCommand extends CommandNode {
+
+    private static final String INDENT = "  ";
 
     public ConfigureCommand() {
         super("configure");
@@ -31,7 +34,7 @@ public class ConfigureCommand extends CommandNode {
 
             if (arguments.size() == 3) {
                 return properties.stream().map(ConfigurableProperty::getName).toList();
-            } else if (arguments.size() == 4 && action == Action.SET) {
+            } else if (arguments.size() > 3 && action == Action.SET) {
                 return properties.stream()
                         .filter(p -> p.getName().equals(arguments.get(2)))
                         .findFirst().map(p -> p.onComplete(sender, arguments.subArguments(3)))
@@ -56,40 +59,35 @@ public class ConfigureCommand extends CommandNode {
 
         switch (action) {
             case SET -> {
+                properties.forEach(p -> p.onExecute(sender, sub));
                 sender.sendMessage(getMessage(properties, "updated"));
-
-                for (ConfigurableProperty<?, ?> property : properties) {
-                    property.onExecute(sender, sub);
-                    sender.sendMessage("  " + ChatColor.LIGHT_PURPLE + property.getName() + ChatColor.RESET);
-                }
             }
             case RESET -> {
+                properties.forEach(ConfigurableProperty::reset);
                 sender.sendMessage(getMessage(properties, "reset"));
-
-                for (ConfigurableProperty<?, ?> property : properties) {
-                    property.reset();
-                    sender.sendMessage("  " + ChatColor.LIGHT_PURPLE + property.getName() + ChatColor.RESET);
-                }
             }
             case INFO -> {
                 ConfigurableProperty<?, ?> property = properties.get(0);
 
                 List<String> info = new ArrayList<>();
                 info.add(ChatColor.LIGHT_PURPLE + property.getName() + ChatColor.RESET + "=" + ChatColor.YELLOW + property);
-                property.getDescription().forEach(l -> info.addAll(TextUtil.split(l, 55).stream().map(i -> ChatColor.GRAY + "  " + i).toList()));
+                property.getDescription().forEach(l -> info.addAll(TextUtil.split(l, 55).stream().map(i -> ChatColor.GRAY + INDENT + i).toList()));
                 sender.sendMessage(info.toArray(String[]::new));
             }
         }
     }
 
-    private static String getMessage(List<ConfigurableProperty<?, ?>> properties, String action) {
-        return String.valueOf(ChatColor.YELLOW) + properties.size() + ChatColor.RESET +
+    private static String[] getMessage(List<ConfigurableProperty<?, ?>> properties, String action) {
+        List<String> lines = new ArrayList<>();
+        lines.add(String.valueOf(ChatColor.YELLOW) + properties.size() + ChatColor.RESET +
                 (properties.size() > 1 ? " properties" : " property") +
-                (properties.size() > 1 ? " have" : " has") + " been " + action + ":";
+                (properties.size() > 1 ? " have" : " has") + " been " + action + ":");
+        lines.addAll(properties.stream().map(p -> INDENT + ChatColor.LIGHT_PURPLE + p.getName()).toList());
+        return lines.toArray(String[]::new);
     }
 
     private enum Action {
-        SET((s, a, i, c) -> c.getName().matches(i) && c.getPropertyType().test(s, a)),
+        SET((s, a, i, c) -> c instanceof ListProperty<?> ? c.getName().equals(i) : c.getName().matches(i) && c.getPropertyType().test(s, a)),
         RESET((s, a, i, c) -> c.getName().matches(i)),
         INFO((s, a, i, c) -> c.getName().equals(i));
 
