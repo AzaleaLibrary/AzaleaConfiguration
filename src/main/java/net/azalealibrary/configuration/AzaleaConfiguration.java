@@ -27,5 +27,3 @@ public final class AzaleaConfiguration extends JavaPlugin {
         AzaleaCommandApi.register(this, ConfigureCommand.class);
     }
 }
-
-// TODO - regex to set/update many props with shared name shop.item.*
