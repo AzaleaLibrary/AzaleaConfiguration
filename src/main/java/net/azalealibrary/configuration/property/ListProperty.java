@@ -34,7 +34,7 @@ public final class ListProperty<T> extends ConfigurableProperty<T, List<T>> {
             int index = arguments.find(1, "position", input -> Integer.parseInt(input.replace("@", "")));
 
             if (index >= get().size()) {
-                throw new AzaleaException("Specified list position '" + index +"' too large for list of size " + get().size() + ".");
+                throw new AzaleaException("Specified list position " + index +" too large for list of size " + get().size() + ".");
             }
 
             if (action.equals(REPLACE)) {
@@ -51,13 +51,11 @@ public final class ListProperty<T> extends ConfigurableProperty<T, List<T>> {
     public List<String> onComplete(CommandSender sender, Arguments arguments) {
         if (arguments.size() == 1) {
             return List.of(ADD, REMOVE, REPLACE);
-        } else if (arguments.size() == 2 && !get().isEmpty() && !arguments.is(0, ADD)) {
+        } else if (!get().isEmpty() && arguments.size() == 2 && !arguments.is(0, ADD)) {
             return List.of("@" + (get().size() - 1));
-        } else if (arguments.is(0, ADD) || arguments.is(0, REPLACE)) {
-            // avoid suggesting more than necessary
-            Arguments data = arguments.subArguments(arguments.is(0, ADD) ? 0 : 1);
-            List<String> suggestion = propertyType.complete(sender, data);
-            return arguments.size() -1 <= suggestion.size() ? suggestion : List.of();
+        } else if (!arguments.is(0, REMOVE)) {
+            int offset = arguments.is(0, ADD) ? 0 : 1;
+            return arguments.size() == 2 + offset ? propertyType.complete(sender, arguments.subArguments(offset)) : List.of();
         }
         return List.of();
     }
