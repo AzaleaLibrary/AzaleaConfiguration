@@ -46,23 +46,25 @@ public final class Property<T> extends ConfigurableProperty<T, T> {
         return isSet() ? getType().print(get()) : "<empty>";
     }
 
-    public static <T> Builder<T> create(String name, PropertyType<T> type, Supplier<T> defaultValue) {
-        return new Builder<>(name, type, defaultValue);
+    public static <T> Builder<T> create(PropertyType<T> type, String name, Supplier<T> defaultValue) {
+        return new Builder<>(type, name, defaultValue);
     }
 
     public static final class Builder<T> {
 
-        private final String name;
         private final PropertyType<T> type;
+        private final String name;
         private final Supplier<T> defaultValue;
         private final List<AssignmentPolicy<T>> policies = new ArrayList<>();
         private String description;
         private Consumer<T> callback;
 
-        private Builder(String name, PropertyType<T> type, Supplier<T> defaultValue) {
-            this.name = name;
+        private Builder(PropertyType<T> type, String name, Supplier<T> defaultValue) {
             this.type = type;
+            this.name = name;
             this.defaultValue = defaultValue;
+            this.description = name;
+            this.callback = v -> {};
         }
 
         public Builder<T> addPolicy(AssignmentPolicy<T> policy) {

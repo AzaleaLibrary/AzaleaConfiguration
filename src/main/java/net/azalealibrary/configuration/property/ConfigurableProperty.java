@@ -29,6 +29,7 @@ public abstract class ConfigurableProperty<T, P> {
         this.defaultValue = defaultValue;
         this.callback = callback;
         this.policies = policies;
+        this.value = defaultValue.get();
     }
 
     public PropertyType<T> getType() {

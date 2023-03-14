@@ -21,7 +21,6 @@ public final class ListProperty<T> extends ConfigurableProperty<T, List<T>> {
 
     private ListProperty(PropertyType<T> type, Supplier<List<T>> defaultValue, String name, String description, Consumer<List<T>> callback, List<AssignmentPolicy<T>> policies) {
         super(type, defaultValue, name, description, callback, policies);
-        set(defaultValue.get());
     }
 
     @Override
@@ -93,23 +92,25 @@ public final class ListProperty<T> extends ConfigurableProperty<T, List<T>> {
         return isSet() ? get().stream().map(getType()::print).collect(Collectors.joining(", ")) : "<empty>";
     }
 
-    public static <T> Builder<T> create(String name, PropertyType<T> type, Supplier<List<T>> defaultValue) {
-        return new Builder<>(name, type, defaultValue);
+    public static <T> Builder<T> create(PropertyType<T> type, String name, Supplier<List<T>> defaultValue) {
+        return new Builder<>(type, name, defaultValue);
     }
 
     public static final class Builder<T> {
 
-        private final String name;
         private final PropertyType<T> type;
+        private final String name;
         private final Supplier<List<T>> defaultValue;
         private final List<AssignmentPolicy<T>> policies = new ArrayList<>();
         private String description;
         private Consumer<List<T>> callback;
 
-        private Builder(String name, PropertyType<T> type, Supplier<List<T>> defaultValue) {
-            this.name = name;
+        private Builder(PropertyType<T> type, String name, Supplier<List<T>> defaultValue) {
             this.type = type;
+            this.name = name;
             this.defaultValue = defaultValue;
+            this.description = name;
+            this.callback = v -> {};
         }
 
         public Builder<T> addPolicy(AssignmentPolicy<T> policy) {
