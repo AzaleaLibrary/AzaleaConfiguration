@@ -14,7 +14,7 @@ import java.util.function.Supplier;
 
 public abstract class ConfigurableProperty<T, P> {
 
-    protected final PropertyType<T> type;
+    protected final PropertyType<T> propertyType;
     protected final List<AssignmentPolicy<T>> policies;
     protected final String name;
     protected final Consumer<P> callback;
@@ -22,8 +22,8 @@ public abstract class ConfigurableProperty<T, P> {
     private final Supplier<P> defaultValue;
     private @Nullable P value;
 
-    protected ConfigurableProperty(PropertyType<T> type, Supplier<P> defaultValue, String name, List<String> description, Consumer<P> callback, List<AssignmentPolicy<T>> policies) {
-        this.type = type;
+    protected ConfigurableProperty(PropertyType<T> propertyType, Supplier<P> defaultValue, String name, List<String> description, Consumer<P> callback, List<AssignmentPolicy<T>> policies) {
+        this.propertyType = propertyType;
         this.name = name;
         this.description = description;
         this.defaultValue = defaultValue;
@@ -32,8 +32,8 @@ public abstract class ConfigurableProperty<T, P> {
         this.value = defaultValue.get();
     }
 
-    public PropertyType<T> getType() {
-        return type;
+    public PropertyType<T> getPropertyType() {
+        return propertyType;
     }
 
     public String getName() {
@@ -81,7 +81,7 @@ public abstract class ConfigurableProperty<T, P> {
 
     @SuppressWarnings("unchecked")
     public List<String> onComplete(CommandSender sender, Arguments arguments) {
-        return type.complete(sender, arguments, (T) get());
+        return propertyType.complete(sender, arguments, (T) get());
     }
 
     protected abstract void set(CommandSender sender, Arguments arguments);

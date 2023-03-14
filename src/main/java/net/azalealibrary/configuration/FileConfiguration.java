@@ -54,7 +54,7 @@ public class FileConfiguration {
             for (ConfigurableProperty<?, ?> property : configurable.getProperties()) {
                 property.serialize(configuration);
                 List<String> comments = new ArrayList<>();
-                String type = property.getType().getExpected() + (property instanceof ListProperty<?> ? " (list)" : "");
+                String type = property.getPropertyType().getExpected() + (property instanceof ListProperty<?> ? " (list)" : "");
                 comments.add("Property: " + property.getName() + " of " + type);
                 comments.add("Default: " + property.getDefault());
                 property.getDescription().forEach(l -> comments.addAll(TextUtil.split(l, 55).stream().map(i -> "  " + i).toList()));

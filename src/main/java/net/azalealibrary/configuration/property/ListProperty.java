@@ -28,7 +28,7 @@ public final class ListProperty<T> extends ConfigurableProperty<T, List<T>> {
         String action = arguments.matchesAny(0, "list operation", ADD, REMOVE, REPLACE);
 
         if (action.equals(ADD)) {
-            get().add(verify(getType().parse(sender, arguments.subArguments(1), null)));
+            get().add(verify(propertyType.parse(sender, arguments.subArguments(1), null)));
             callback.accept(get());
         } else {
             int index = arguments.find(1, "position", input -> Integer.parseInt(input.replace("@", "")));
@@ -38,7 +38,7 @@ public final class ListProperty<T> extends ConfigurableProperty<T, List<T>> {
             }
 
             if (action.equals(REPLACE)) {
-                get().set(index, verify(getType().parse(sender, arguments.subArguments(2), null)));
+                get().set(index, verify(propertyType.parse(sender, arguments.subArguments(2), null)));
                 callback.accept(get());
             } else {
                 get().remove(index);
@@ -56,7 +56,7 @@ public final class ListProperty<T> extends ConfigurableProperty<T, List<T>> {
         } else if (arguments.is(0, ADD) || arguments.is(0, REPLACE)) {
             // avoid suggesting more than necessary
             Arguments data = arguments.subArguments(arguments.is(0, ADD) ? 0 : 1);
-            List<String> suggestion = getType().complete(sender, data, null);
+            List<String> suggestion = propertyType.complete(sender, data, null);
             return arguments.size() -1 <= suggestion.size() ? suggestion : List.of();
         }
         return List.of();
@@ -64,7 +64,7 @@ public final class ListProperty<T> extends ConfigurableProperty<T, List<T>> {
 
     @Override
     public void serialize(@Nonnull ConfigurationSection configuration) {
-        Optional.ofNullable(get()).ifPresent(value -> configuration.set(getName(), value.stream().map(getType()::serialize).toList()));
+        Optional.ofNullable(get()).ifPresent(value -> configuration.set(getName(), value.stream().map(propertyType::serialize).toList()));
     }
 
     @SuppressWarnings("unchecked")
@@ -73,7 +73,7 @@ public final class ListProperty<T> extends ConfigurableProperty<T, List<T>> {
         List<Object> objects = (List<Object>) configuration.getList(getName());
 
         if (objects != null) {
-            set(objects.stream().map(object -> getType().deserialize(object)).collect(Collectors.toList()));
+            set(objects.stream().map(propertyType::deserialize).collect(Collectors.toList()));
         } else {
             set(new ArrayList<>(getDefault()));
         }
@@ -82,14 +82,14 @@ public final class ListProperty<T> extends ConfigurableProperty<T, List<T>> {
     @Override
     public boolean equals(Object object) {
         if (object instanceof ListProperty<?> property) {
-            return property.name.equals(name) && property.type.getType().equals(type.getType());
+            return property.name.equals(name) && property.propertyType.getType().equals(propertyType.getType());
         }
         return super.equals(object);
     }
 
     @Override
     public String toString() {
-        return isSet() ? get().stream().map(getType()::print).collect(Collectors.joining(", ")) : "<empty>";
+        return isSet() ? get().stream().map(propertyType::print).collect(Collectors.joining(", ")) : "<empty>";
     }
 
     public static <T> Builder<T> create(PropertyType<T> type, String name, Supplier<List<T>> defaultValue) {

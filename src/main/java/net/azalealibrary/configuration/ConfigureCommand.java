@@ -89,7 +89,7 @@ public class ConfigureCommand extends CommandNode {
     }
 
     private enum Action {
-        SET((s, a, i, c) -> c.getName().matches(i) && c.getType().test(s, a)),
+        SET((s, a, i, c) -> c.getName().matches(i) && c.getPropertyType().test(s, a)),
         RESET((s, a, i, c) -> c.getName().matches(i)),
         INFO((s, a, i, c) -> c.getName().equals(i));
 

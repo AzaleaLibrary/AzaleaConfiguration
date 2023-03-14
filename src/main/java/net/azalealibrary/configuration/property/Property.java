@@ -19,31 +19,31 @@ public final class Property<T> extends ConfigurableProperty<T, T> {
 
     @Override
     protected void set(CommandSender sender, Arguments arguments) {
-        set(verify(getType().parse(sender, arguments, get())));
+        set(verify(propertyType.parse(sender, arguments, get())));
         callback.accept(get());
     }
 
     @Override
     public void serialize(@Nonnull ConfigurationSection configuration) {
-        Optional.ofNullable(get()).ifPresent(value -> configuration.set(getName(), getType().serialize(value)));
+        Optional.ofNullable(get()).ifPresent(value -> configuration.set(getName(), propertyType.serialize(value)));
     }
 
     @Override
     public void deserialize(@Nonnull ConfigurationSection configuration) {
-        Optional.ofNullable(configuration.get(getName())).ifPresent(object -> set(getType().deserialize(object)));
+        Optional.ofNullable(configuration.get(getName())).ifPresent(object -> set(propertyType.deserialize(object)));
     }
 
     @Override
     public boolean equals(Object object) {
         if (object instanceof Property<?> property) {
-            return property.name.equals(name) && property.type.getType().equals(type.getType());
+            return property.name.equals(name) && property.propertyType.getType().equals(propertyType.getType());
         }
         return super.equals(object);
     }
 
     @Override
     public String toString() {
-        return isSet() ? getType().print(get()) : "<empty>";
+        return isSet() ? propertyType.print(get()) : "<empty>";
     }
 
     public static <T> Builder<T> create(PropertyType<T> type, String name, Supplier<T> defaultValue) {
