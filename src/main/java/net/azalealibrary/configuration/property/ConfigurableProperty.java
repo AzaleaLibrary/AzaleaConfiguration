@@ -18,11 +18,11 @@ public abstract class ConfigurableProperty<T, P> {
     protected final List<AssignmentPolicy<T>> policies;
     protected final String name;
     protected final Consumer<P> callback;
-    private final String description;
+    private final List<String> description;
     private final Supplier<P> defaultValue;
     private @Nullable P value;
 
-    protected ConfigurableProperty(PropertyType<T> type, Supplier<P> defaultValue, String name, String description, Consumer<P> callback, List<AssignmentPolicy<T>> policies) {
+    protected ConfigurableProperty(PropertyType<T> type, Supplier<P> defaultValue, String name, List<String> description, Consumer<P> callback, List<AssignmentPolicy<T>> policies) {
         this.type = type;
         this.name = name;
         this.description = description;
@@ -40,7 +40,7 @@ public abstract class ConfigurableProperty<T, P> {
         return name;
     }
 
-    public String getDescription() {
+    public List<String> getDescription() {
         return description;
     }
 

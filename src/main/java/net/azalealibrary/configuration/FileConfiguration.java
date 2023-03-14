@@ -1,10 +1,13 @@
 package net.azalealibrary.configuration;
 
+import net.azalealibrary.command.TextUtil;
 import net.azalealibrary.configuration.property.ConfigurableProperty;
+import net.azalealibrary.configuration.property.ListProperty;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -50,7 +53,11 @@ public class FileConfiguration {
 
             for (ConfigurableProperty<?, ?> property : configurable.getProperties()) {
                 property.serialize(configuration);
-                List<String> comments = TextUtil.getYamlInfo(property, 80).stream().toList();
+                List<String> comments = new ArrayList<>();
+                String type = property.getType().getExpected() + (property instanceof ListProperty<?> ? " (list)" : "");
+                comments.add("Property: " + property.getName() + " of " + type);
+                comments.add("Default: " + property.getDefault());
+                property.getDescription().forEach(l -> comments.addAll(TextUtil.split(l, 55).stream().map(i -> "  " + i).toList()));
                 configuration.setComments(property.getName(), comments);
             }
             configuration.save(file);

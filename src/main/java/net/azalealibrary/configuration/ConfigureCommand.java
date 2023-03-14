@@ -5,7 +5,6 @@ import net.azalealibrary.command.AzaleaException;
 import net.azalealibrary.command.CommandNode;
 import net.azalealibrary.command.TextUtil;
 import net.azalealibrary.configuration.property.ConfigurableProperty;
-import net.azalealibrary.configuration.property.ListProperty;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
@@ -74,12 +73,10 @@ public class ConfigureCommand extends CommandNode {
             }
             case INFO -> {
                 ConfigurableProperty<?, ?> property = properties.get(0);
+
                 List<String> info = new ArrayList<>();
-                String type = property.getType().getExpected() + (property instanceof ListProperty<?> ? " (list)" : "");
-                info.add("Property: " + ChatColor.LIGHT_PURPLE + property.getName() + ChatColor.RESET + " " + type);
-                info.add("Default: " + ChatColor.AQUA + property.getDefault());
-                info.add("Value: " + ChatColor.YELLOW + property);
-                property.getDescription().forEach(l -> info.addAll(TextUtil.split(l, 55).stream().map(i -> "  " + i).toList()));
+                info.add(ChatColor.LIGHT_PURPLE + property.getName() + ChatColor.RESET + "=" + ChatColor.YELLOW + property);
+                property.getDescription().forEach(l -> info.addAll(TextUtil.split(l, 55).stream().map(i -> ChatColor.GRAY + "  " + i).toList()));
                 sender.sendMessage(info.toArray(String[]::new));
             }
         }
