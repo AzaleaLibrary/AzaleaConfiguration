@@ -28,7 +28,7 @@ public final class ListProperty<T> extends ConfigurableProperty<T, List<T>> {
         String action = arguments.matchesAny(0, "list operation", ADD, REMOVE, REPLACE);
 
         if (action.equals(ADD)) {
-            get().add(verify(propertyType.parse(sender, arguments.subArguments(1), null)));
+            get().add(verify(propertyType.parse(sender, arguments.subArguments(1))));
             callback.accept(get());
         } else {
             int index = arguments.find(1, "position", input -> Integer.parseInt(input.replace("@", "")));
@@ -38,7 +38,7 @@ public final class ListProperty<T> extends ConfigurableProperty<T, List<T>> {
             }
 
             if (action.equals(REPLACE)) {
-                get().set(index, verify(propertyType.parse(sender, arguments.subArguments(2), null)));
+                get().set(index, verify(propertyType.parse(sender, arguments.subArguments(2))));
                 callback.accept(get());
             } else {
                 get().remove(index);
@@ -56,7 +56,7 @@ public final class ListProperty<T> extends ConfigurableProperty<T, List<T>> {
         } else if (arguments.is(0, ADD) || arguments.is(0, REPLACE)) {
             // avoid suggesting more than necessary
             Arguments data = arguments.subArguments(arguments.is(0, ADD) ? 0 : 1);
-            List<String> suggestion = propertyType.complete(sender, data, null);
+            List<String> suggestion = propertyType.complete(sender, data);
             return arguments.size() -1 <= suggestion.size() ? suggestion : List.of();
         }
         return List.of();

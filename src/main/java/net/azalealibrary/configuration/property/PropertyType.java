@@ -10,7 +10,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import javax.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,19 +19,19 @@ public class PropertyType<T> {
     public static final PropertyType<String> STRING = new PropertyType<>(String.class, "text");
     public static final PropertyType<Integer> INTEGER = new PropertyType<>(Integer.class) {
         @Override
-        public Integer parse(CommandSender sender, Arguments arguments, @Nullable Integer currentValue) {
+        public Integer parse(CommandSender sender, Arguments arguments) {
             return Integer.parseInt(arguments.get(0));
         }
     };
     public static final PropertyType<Double> DOUBLE = new PropertyType<>(Double.class, "decimal") {
         @Override
-        public Double parse(CommandSender sender, Arguments arguments, @Nullable Double currentValue) {
+        public Double parse(CommandSender sender, Arguments arguments) {
             return Double.parseDouble(arguments.get(0));
         }
     };
     public static final PropertyType<Boolean> BOOLEAN = new PropertyType<>(Boolean.class) {
         @Override
-        public Boolean parse(CommandSender sender, Arguments arguments, @Nullable Boolean currentValue) {
+        public Boolean parse(CommandSender sender, Arguments arguments) {
             if (!arguments.is(0, "true") && !arguments.is(0, "false")) {
                 throw new AzaleaException(); // ensure explicit "true" or "false" text has been provided
             }
@@ -40,13 +39,13 @@ public class PropertyType<T> {
         }
 
         @Override
-        public List<String> complete(CommandSender sender, Arguments arguments, @Nullable Boolean currentValue) {
-            return List.of(Boolean.toString(Boolean.FALSE.equals(currentValue)));
+        public List<String> complete(CommandSender sender, Arguments arguments) {
+            return List.of("true", "false");
         }
     };
     public static final PropertyType<Vector> VECTOR = new PropertyType<>(Vector.class) {
         @Override
-        public List<String> complete(CommandSender sender, Arguments arguments, @Nullable Vector currentValue) {
+        public List<String> complete(CommandSender sender, Arguments arguments) {
             if (sender instanceof Player player) {
                 Location location = player.getLocation();
                 double x = location.getBlockX() + .5;
@@ -54,11 +53,11 @@ public class PropertyType<T> {
                 double z = location.getBlockZ() + .5;
                 return List.of(x + " " + y + " " + z);
             }
-            return super.complete(sender, arguments, currentValue);
+            return super.complete(sender, arguments);
         }
 
         @Override
-        public Vector parse(CommandSender sender, Arguments arguments, @Nullable Vector currentValue) {
+        public Vector parse(CommandSender sender, Arguments arguments) {
             double x = arguments.find(0, "x", Double::parseDouble);
             double y = arguments.find(1, "y", Double::parseDouble);
             double z = arguments.find(2, "z", Double::parseDouble);
@@ -67,7 +66,7 @@ public class PropertyType<T> {
     };
     public static final PropertyType<Location> LOCATION = new PropertyType<>(Location.class, "position") {
         @Override
-        public List<String> complete(CommandSender sender, Arguments arguments, @Nullable Location currentValue) {
+        public List<String> complete(CommandSender sender, Arguments arguments) {
             if (sender instanceof Player player) {
                 Location location = player.getLocation();
                 double x = location.getBlockX() + .5;
@@ -77,11 +76,11 @@ public class PropertyType<T> {
                 float pitch = location.getPitch();
                 return List.of(x + " " + y + " " + z + " " + yaw + " " + pitch);
             }
-            return super.complete(sender, arguments, currentValue);
+            return super.complete(sender, arguments);
         }
 
         @Override
-        public Location parse(CommandSender sender, Arguments arguments, @Nullable Location currentValue) {
+        public Location parse(CommandSender sender, Arguments arguments) {
             if (sender instanceof Player player) {
                 double x = arguments.find(0, "x", Double::parseDouble);
                 double y = arguments.find(1, "y", Double::parseDouble);
@@ -90,20 +89,20 @@ public class PropertyType<T> {
                 float pitch = arguments.find(4, "pitch", Float::parseFloat);
                 return new Location(player.getWorld(), x, y, z, yaw, pitch);
             }
-            return super.parse(sender, arguments, currentValue);
+            return super.parse(sender, arguments);
         }
     };
     public static final PropertyType<Player> PLAYER = new PropertyType<>(Player.class) {
         @Override
-        public List<String> complete(CommandSender sender, Arguments arguments, @Nullable Player currentValue) {
+        public List<String> complete(CommandSender sender, Arguments arguments) {
             if (sender instanceof Player player) {
                 return player.getWorld().getPlayers().stream().map(Player::getDisplayName).toList();
             }
-            return super.complete(sender, arguments, currentValue);
+            return super.complete(sender, arguments);
         }
 
         @Override
-        public Player parse(CommandSender sender, Arguments arguments, @Nullable Player currentValue) {
+        public Player parse(CommandSender sender, Arguments arguments) {
             return (Player) sender;
         }
 
@@ -124,12 +123,12 @@ public class PropertyType<T> {
     };
     public static final PropertyType<World> WORLD = new PropertyType<>(World.class) {
         @Override
-        public List<String> complete(CommandSender sender, Arguments arguments, @Nullable World currentValue) {
+        public List<String> complete(CommandSender sender, Arguments arguments) {
             return Bukkit.getServer().getWorlds().stream().map(World::getName).toList();
         }
 
         @Override
-        public World parse(CommandSender sender, Arguments arguments, @Nullable World currentValue) {
+        public World parse(CommandSender sender, Arguments arguments) {
             return Bukkit.getWorld(arguments.get(0));
         }
 
@@ -169,11 +168,11 @@ public class PropertyType<T> {
         return StringUtils.capitalize(expected.toLowerCase());
     }
 
-    public List<String> complete(CommandSender sender, Arguments arguments, @Nullable T currentValue) {
+    public List<String> complete(CommandSender sender, Arguments arguments) {
         return arguments.size() == 1 ? List.of("<" + expected + ">") : List.of();
     }
 
-    public T parse(CommandSender sender, Arguments arguments, @Nullable T currentValue) {
+    public T parse(CommandSender sender, Arguments arguments) {
         return (T) arguments.get(0);
     }
 
@@ -192,7 +191,7 @@ public class PropertyType<T> {
     // TODO - review
     public boolean test(CommandSender sender, Arguments arguments) {
         try {
-            parse(sender, arguments, null);
+            parse(sender, arguments);
             return true;
         } catch (Exception exception) {
             return false;

@@ -18,9 +18,9 @@ public abstract class ConfigurableProperty<T, P> {
     protected final List<AssignmentPolicy<T>> policies;
     protected final String name;
     protected final Consumer<P> callback;
-    private final List<String> description;
-    private final Supplier<P> defaultValue;
-    private @Nullable P value;
+    protected final List<String> description;
+    protected final Supplier<P> defaultValue;
+    protected @Nullable P value;
 
     protected ConfigurableProperty(PropertyType<T> propertyType, Supplier<P> defaultValue, String name, List<String> description, Consumer<P> callback, List<AssignmentPolicy<T>> policies) {
         this.propertyType = propertyType;
@@ -79,9 +79,8 @@ public abstract class ConfigurableProperty<T, P> {
         set(sender, arguments);
     }
 
-    @SuppressWarnings("unchecked")
     public List<String> onComplete(CommandSender sender, Arguments arguments) {
-        return propertyType.complete(sender, arguments, (T) get());
+        return propertyType.complete(sender, arguments);
     }
 
     protected abstract void set(CommandSender sender, Arguments arguments);

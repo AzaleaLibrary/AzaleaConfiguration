@@ -19,7 +19,7 @@ public final class Property<T> extends ConfigurableProperty<T, T> {
 
     @Override
     protected void set(CommandSender sender, Arguments arguments) {
-        set(verify(propertyType.parse(sender, arguments, get())));
+        set(verify(propertyType.parse(sender, arguments)));
         callback.accept(get());
     }
 
