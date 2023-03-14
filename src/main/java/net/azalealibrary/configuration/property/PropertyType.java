@@ -2,6 +2,7 @@ package net.azalealibrary.configuration.property;
 
 import net.azalealibrary.command.Arguments;
 import net.azalealibrary.command.AzaleaException;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -165,7 +166,7 @@ public class PropertyType<T> {
     }
 
     public final String getExpected() {
-        return expected;
+        return StringUtils.capitalize(expected.toLowerCase());
     }
 
     public List<String> complete(CommandSender sender, Arguments arguments, @Nullable T currentValue) {
