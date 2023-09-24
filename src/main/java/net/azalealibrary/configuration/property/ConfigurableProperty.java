@@ -19,13 +19,15 @@ public abstract class ConfigurableProperty<T, P> {
     protected final String name;
     protected final Consumer<P> callback;
     protected final List<String> description;
+    protected final boolean editable;
     protected final Supplier<P> defaultValue;
     protected @Nullable P value;
 
-    protected ConfigurableProperty(PropertyType<T> propertyType, Supplier<P> defaultValue, String name, List<String> description, Consumer<P> callback, List<AssignmentPolicy<T>> policies) {
+    protected ConfigurableProperty(PropertyType<T> propertyType, Supplier<P> defaultValue, String name, List<String> description, boolean editable, Consumer<P> callback, List<AssignmentPolicy<T>> policies) {
         this.propertyType = propertyType;
         this.name = name;
         this.description = description;
+        this.editable = editable;
         this.defaultValue = defaultValue;
         this.callback = callback;
         this.policies = policies;
@@ -42,6 +44,10 @@ public abstract class ConfigurableProperty<T, P> {
 
     public List<String> getDescription() {
         return description;
+    }
+
+    public boolean isEditable() {
+        return editable;
     }
 
     public P getDefault() {

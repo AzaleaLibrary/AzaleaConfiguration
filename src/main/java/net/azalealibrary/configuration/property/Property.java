@@ -13,8 +13,8 @@ import java.util.function.Supplier;
 
 public final class Property<T> extends ConfigurableProperty<T, T> {
 
-    private Property(PropertyType<T> type, Supplier<T> defaultValue, String name, List<String> description, Consumer<T> callback, List<AssignmentPolicy<T>> policies) {
-        super(type, defaultValue, name, description, callback, policies);
+    private Property(PropertyType<T> type, Supplier<T> defaultValue, String name, List<String> description, boolean editable, Consumer<T> callback, List<AssignmentPolicy<T>> policies) {
+        super(type, defaultValue, name, description, editable, callback, policies);
     }
 
     @Override
@@ -58,6 +58,7 @@ public final class Property<T> extends ConfigurableProperty<T, T> {
         private final List<AssignmentPolicy<T>> policies = new ArrayList<>();
         private final List<String> description = new ArrayList<>();
         private Consumer<T> callback;
+        private boolean editable = true;
 
         private Builder(PropertyType<T> type, String name, Supplier<T> defaultValue) {
             this.type = type;
@@ -81,8 +82,13 @@ public final class Property<T> extends ConfigurableProperty<T, T> {
             return this;
         }
 
+        public Builder<T> locked() {
+            editable = false;
+            return this;
+        }
+
         public Property<T> done() {
-            return new Property<>(type, defaultValue, name, description, callback, policies);
+            return new Property<>(type, defaultValue, name, description, editable, callback, policies);
         }
     }
 }

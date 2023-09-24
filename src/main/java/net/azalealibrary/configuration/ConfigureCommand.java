@@ -39,9 +39,10 @@ public class ConfigureCommand extends CommandNode {
             List<ConfigurableProperty<?, ?>> properties = configuration.getProperties();
 
             if (arguments.size() == 3) {
-                return properties.stream().map(ConfigurableProperty::getName).toList();
+                return properties.stream().filter(ConfigurableProperty::isEditable).map(ConfigurableProperty::getName).toList();
             } else if (arguments.size() > 3 && action == Action.SET) {
                 return properties.stream()
+                        .filter(ConfigurableProperty::isEditable)
                         .filter(p -> p.getName().equals(arguments.get(2)))
                         .findFirst().map(p -> p.onComplete(sender, arguments.subArguments(3)))
                         .orElse(List.of());
@@ -56,6 +57,7 @@ public class ConfigureCommand extends CommandNode {
         Action action = arguments.find(1, "action", input -> Action.valueOf(input.toUpperCase()));
         Arguments sub = arguments.subArguments(3);
         List<ConfigurableProperty<?, ?>> properties = arguments.find(2, "property", input -> configuration.getProperties().stream()
+                .filter(ConfigurableProperty::isEditable)
                 .filter(c -> action.predicate.test(sender, sub, input, c))
                 .toList());
 
