@@ -9,7 +9,6 @@ import net.azalealibrary.configuration.property.ListProperty;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -18,13 +17,8 @@ public class ConfigureCommand extends CommandNode {
 
     private static final String INDENT = "  ";
 
-    public ConfigureCommand() {
-        super("configure");
-    }
-
-    @Override
-    public @Nullable String getPermission() {
-        return "azalea.configure";
+    public ConfigureCommand(String name) {
+        super(name);
     }
 
     @Override
