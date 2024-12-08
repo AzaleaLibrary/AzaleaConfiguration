@@ -47,6 +47,9 @@ public final class Property<T> extends ConfigurableProperty<T, T> {
     }
 
     public static <T> Builder<T> create(PropertyType<T> type, String name, Supplier<T> defaultValue) {
+        if (!name.matches("[a-zA-Z0-9_]+")) {
+            throw new IllegalArgumentException("Property '" + name + "' contains non-alphanumeric characters.");
+        }
         return new Builder<>(type, name, defaultValue);
     }
 
