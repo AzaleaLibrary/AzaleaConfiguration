@@ -2,7 +2,7 @@ package net.azalealibrary.configuration.command.property;
 
 import net.azalealibrary.command.Arguments;
 import net.azalealibrary.command.TextUtil;
-import net.azalealibrary.configuration.Configuration;
+import net.azalealibrary.configuration.config.Configuration;
 import net.azalealibrary.configuration.property.ConfigurableProperty;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;

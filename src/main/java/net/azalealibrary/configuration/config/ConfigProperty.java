@@ -1,4 +1,4 @@
-package net.azalealibrary.configuration.annotation;
+package net.azalealibrary.configuration.config;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

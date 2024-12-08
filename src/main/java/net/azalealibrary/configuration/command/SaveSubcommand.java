@@ -2,7 +2,7 @@ package net.azalealibrary.configuration.command;
 
 import net.azalealibrary.command.Arguments;
 import net.azalealibrary.command.CommandNode;
-import net.azalealibrary.configuration.Configuration;
+import net.azalealibrary.configuration.config.Configuration;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 

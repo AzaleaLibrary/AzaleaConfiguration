@@ -1,10 +1,10 @@
 package net.azalealibrary.configuration.command;
 
 import net.azalealibrary.command.CommandNode;
-import net.azalealibrary.configuration.Configuration;
 import net.azalealibrary.configuration.command.property.InfoSubcommand;
 import net.azalealibrary.configuration.command.property.ResetSubcommand;
 import net.azalealibrary.configuration.command.property.SetSubcommand;
+import net.azalealibrary.configuration.config.Configuration;
 
 public class ConfigureCommand extends CommandNode {
 

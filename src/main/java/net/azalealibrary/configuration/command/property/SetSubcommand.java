@@ -1,7 +1,7 @@
 package net.azalealibrary.configuration.command.property;
 
 import net.azalealibrary.command.Arguments;
-import net.azalealibrary.configuration.Configuration;
+import net.azalealibrary.configuration.config.Configuration;
 import net.azalealibrary.configuration.property.ConfigurableProperty;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.command.CommandSender;

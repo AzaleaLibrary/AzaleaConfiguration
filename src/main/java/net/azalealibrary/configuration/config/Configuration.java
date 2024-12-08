@@ -1,8 +1,7 @@
-package net.azalealibrary.configuration;
+package net.azalealibrary.configuration.config;
 
 import net.azalealibrary.command.AzaleaException;
 import net.azalealibrary.command.TextUtil;
-import net.azalealibrary.configuration.annotation.ConfigProperty;
 import net.azalealibrary.configuration.property.ConfigurableProperty;
 import net.azalealibrary.configuration.property.ListProperty;
 import org.bukkit.configuration.file.YamlConfiguration;
