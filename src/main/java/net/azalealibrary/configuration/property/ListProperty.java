@@ -87,7 +87,7 @@ public final class ListProperty<T> extends ConfigurableProperty<T, List<T>> {
 
     @Override
     public String toString() {
-        return isSet() ? get().stream().map(propertyType::print).collect(Collectors.joining(", ")) : "<empty>";
+        return isSet() && !get().isEmpty() ? get().stream().map(propertyType::print).collect(Collectors.joining(", ")) : "<empty>";
     }
 
     public static <T> Builder<T> create(PropertyType<T> type, String name, Supplier<List<T>> defaultValue) {
