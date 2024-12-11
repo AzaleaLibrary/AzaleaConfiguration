@@ -16,14 +16,14 @@ import java.util.UUID;
 @SuppressWarnings("unchecked")
 public class PropertyType<T> {
 
-    public static final PropertyType<String> STRING = new PropertyType<>(String.class, "text");
+    public static final PropertyType<String> STRING = new PropertyType<>("text");
     public static final PropertyType<Integer> INTEGER = new PropertyType<>(Integer.class) {
         @Override
         public Integer parse(CommandSender sender, Arguments arguments) {
             return Integer.parseInt(arguments.get(0));
         }
     };
-    public static final PropertyType<Double> DOUBLE = new PropertyType<>(Double.class, "decimal") {
+    public static final PropertyType<Double> DOUBLE = new PropertyType<>("decimal") {
         @Override
         public Double parse(CommandSender sender, Arguments arguments) {
             return Double.parseDouble(arguments.get(0));
@@ -64,7 +64,7 @@ public class PropertyType<T> {
             return new Vector(x, y, z);
         }
     };
-    public static final PropertyType<Location> LOCATION = new PropertyType<>(Location.class, "position") {
+    public static final PropertyType<Location> LOCATION = new PropertyType<>("position") {
         @Override
         public List<String> complete(CommandSender sender, Arguments arguments) {
             if (sender instanceof Player player) {
@@ -148,20 +148,14 @@ public class PropertyType<T> {
         }
     };
 
-    private final Class<?> type;
     private final String expected;
 
     public PropertyType(Class<?> type) {
-        this(type, type.getSimpleName());
+        this(type.getSimpleName());
     }
 
-    public PropertyType(Class<?> type, String expected) {
+    public PropertyType(String expected) {
         this.expected = expected;
-        this.type = type;
-    }
-
-    public final Class<?> getType() {
-        return type;
     }
 
     public final String getExpected() {
@@ -200,8 +194,8 @@ public class PropertyType<T> {
 
     @Override
     public boolean equals(Object object) {
-        if (object instanceof PropertyType<?> propertyType) {
-            return propertyType.type.equals(type) && propertyType.expected.equals(expected);
+        if (object instanceof PropertyType<?> property) {
+            return property.expected.equals(expected);
         }
         return super.equals(object);
     }
