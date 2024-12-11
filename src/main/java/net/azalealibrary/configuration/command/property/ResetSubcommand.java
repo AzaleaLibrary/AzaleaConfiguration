@@ -14,7 +14,7 @@ public class ResetSubcommand extends PropertySubcommand {
 
     @Override
     protected boolean isSelected(Arguments arguments, ConfigurableProperty<?, ?> property) {
-        return arguments.isEmpty() || property.getName().matches(arguments.get(0).replace("*", ".*"));
+        return arguments.isEmpty() || property.getName().matches(arguments.get(0).replace("*", ".*")) && arguments.size() == 1;
     }
 
     @Override

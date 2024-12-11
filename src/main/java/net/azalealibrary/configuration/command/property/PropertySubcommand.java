@@ -1,6 +1,7 @@
 package net.azalealibrary.configuration.command.property;
 
 import net.azalealibrary.command.Arguments;
+import net.azalealibrary.command.AzaleaException;
 import net.azalealibrary.command.CommandNode;
 import net.azalealibrary.configuration.config.Configuration;
 import net.azalealibrary.configuration.property.ConfigurableProperty;
@@ -27,9 +28,15 @@ public abstract class PropertySubcommand extends CommandNode {
         if (arguments.size() == 1) {
             return properties.stream().map(ConfigurableProperty::getName).toList();
         }
-        return properties.stream()
+        List<ConfigurableProperty<?, ?>> selected = properties.stream()
                 .filter(p -> isSelected(arguments, p))
-                .findFirst().map(p -> p.onComplete(sender, arguments.subArguments(1)))
+                .toList();
+
+        if (selected.isEmpty()) {
+            throw new AzaleaException("No properties found.");
+        }
+        return selected.stream().findFirst()
+                .map(p -> p.onComplete(sender, arguments.subArguments(1)))
                 .orElse(List.of());
     }
 
