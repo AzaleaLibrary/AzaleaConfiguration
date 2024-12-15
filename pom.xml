@@ -44,12 +44,6 @@
             <artifactId>spigot-api</artifactId>
             <version>${mcVersion}-R0.1-SNAPSHOT</version>
         </dependency>
-        <!-- plugin annotations -->
-        <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>plugin-annotations</artifactId>
-            <version>1.2.3-SNAPSHOT</version>
-        </dependency>
         <!-- mockbukkit -->
         <dependency>
             <groupId>com.github.seeseemelk</groupId>
