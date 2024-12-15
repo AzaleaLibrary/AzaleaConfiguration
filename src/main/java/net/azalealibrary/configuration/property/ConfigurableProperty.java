@@ -94,4 +94,12 @@ public abstract class ConfigurableProperty<T, P> {
     public abstract void serialize(@Nonnull ConfigurationSection configuration);
 
     public abstract void deserialize(@Nonnull ConfigurationSection configuration);
+
+    @Override
+    public boolean equals(Object object) {
+        if (object instanceof Property<?> property) {
+            return property.name.equals(name) && property.propertyType.equals(propertyType);
+        }
+        return super.equals(object);
+    }
 }

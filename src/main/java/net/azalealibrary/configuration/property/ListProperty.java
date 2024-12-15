@@ -78,19 +78,14 @@ public final class ListProperty<T> extends ConfigurableProperty<T, List<T>> {
     }
 
     @Override
-    public boolean equals(Object object) {
-        if (object instanceof ListProperty<?> property) {
-            return property.name.equals(name) && property.propertyType.getType().equals(propertyType.getType());
-        }
-        return super.equals(object);
-    }
-
-    @Override
     public String toString() {
-        return isSet() ? get().stream().map(propertyType::print).collect(Collectors.joining(", ")) : "<empty>";
+        return isSet() && !get().isEmpty() ? get().stream().map(propertyType::print).collect(Collectors.joining(", ")) : "<empty>";
     }
 
     public static <T> Builder<T> create(PropertyType<T> type, String name, Supplier<List<T>> defaultValue) {
+        if (!name.matches("[a-zA-Z0-9_]+")) {
+            throw new IllegalArgumentException("Property '" + name + "' contains non-alphanumeric characters.");
+        }
         return new Builder<>(type, name, defaultValue);
     }
 

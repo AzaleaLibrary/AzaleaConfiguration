@@ -34,19 +34,14 @@ public final class Property<T> extends ConfigurableProperty<T, T> {
     }
 
     @Override
-    public boolean equals(Object object) {
-        if (object instanceof Property<?> property) {
-            return property.name.equals(name) && property.propertyType.getType().equals(propertyType.getType());
-        }
-        return super.equals(object);
-    }
-
-    @Override
     public String toString() {
         return isSet() ? propertyType.print(get()) : "<empty>";
     }
 
     public static <T> Builder<T> create(PropertyType<T> type, String name, Supplier<T> defaultValue) {
+        if (!name.matches("[a-zA-Z0-9_]+")) {
+            throw new IllegalArgumentException("Property '" + name + "' contains non-alphanumeric characters.");
+        }
         return new Builder<>(type, name, defaultValue);
     }
 
